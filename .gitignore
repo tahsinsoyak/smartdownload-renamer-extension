@@ -1,0 +1,14 @@
+node_modules/
+dist/
+release/
+ui-screenshots/
+
+*.log
+vite-ui*.log
+
+.env
+.env.*
+!.env.example
+
+.DS_Store
+Thumbs.db
