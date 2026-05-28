@@ -1,5 +1,4 @@
-import { FileText } from "lucide-react";
-import { Card } from "../../shared/components/Card";
+import { ArrowRight } from "lucide-react";
 import { buildFilename } from "../../shared/lib/buildFilename";
 import type { DomainRule, NamingSettings } from "../../shared/types/downloads";
 
@@ -13,23 +12,15 @@ export function NamingPreview({ settings, domainRules }: { settings: NamingSetti
   });
 
   return (
-    <Card className="p-3">
-      <div className="mb-2.5 flex items-center justify-between">
-        <h2 className="text-sm font-bold text-slate-950 dark:text-white">Naming preview</h2>
-        <span className="rounded-lg bg-blue-50 p-1.5 text-blue-600 dark:bg-blue-950 dark:text-blue-300">
-          <FileText size={16} />
-        </span>
-      </div>
-      <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
-        <div className="grid grid-cols-[64px_1fr] items-center gap-3 bg-white px-3 py-2.5 dark:bg-slate-950">
-          <p className="text-[10px] font-bold uppercase text-slate-400">Before</p>
-          <p className="filename-line font-mono text-sm text-slate-700 dark:text-slate-300" title="document.pdf">document.pdf</p>
-        </div>
-        <div className="grid grid-cols-[64px_1fr] items-center gap-3 border-t border-blue-100 bg-blue-50 px-3 py-2.5 shadow-[inset_3px_0_0_#2563eb] dark:border-blue-900 dark:bg-blue-950">
-          <p className="text-[10px] font-bold uppercase text-blue-500 dark:text-blue-300">After</p>
-          <p className="filename-line font-mono text-sm font-semibold text-blue-950 dark:text-blue-100" title={preview.filename}>{preview.filename}</p>
+    <div className="rounded-xl bg-surface shadow-card dark:bg-panel">
+      <div className="px-4 py-3.5">
+        <p className="mb-3 text-[11px] font-semibold uppercase tracking-wider text-muted-dark dark:text-muted">Preview</p>
+        <div className="flex items-center gap-3 rounded-lg bg-[#fafafa] px-3 py-2.5 dark:bg-[#141414]">
+          <span className="filename-line font-mono text-sm text-muted-dark dark:text-muted">document.pdf</span>
+          <ArrowRight size={14} className="shrink-0 text-muted-dark dark:text-muted" />
+          <span className="filename-line font-mono text-sm font-medium text-ink dark:text-white">{preview.filename}</span>
         </div>
       </div>
-    </Card>
+    </div>
   );
 }
