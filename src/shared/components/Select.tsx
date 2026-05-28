@@ -4,7 +4,7 @@ export function Select(props: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <select
       {...props}
-      className={`w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:focus:ring-blue-950 ${props.className ?? ""}`}
+      className={`w-full rounded-lg border border-[#e5e5e5] bg-white px-3 py-2 text-sm text-ink outline-none transition-all placeholder:text-muted focus:border-teal-500 focus:shadow-ring dark:border-lift dark:bg-panel dark:text-white dark:focus:border-teal-400 ${props.className ?? ""}`}
     />
   );
 }
