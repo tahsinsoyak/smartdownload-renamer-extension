@@ -5,12 +5,12 @@ import { Card } from "../../shared/components/Card";
 export function DataControls({ onClearAll }: { onClearAll: () => void }) {
   return (
     <Card className="p-5">
-      <h2 className="flex items-center gap-2 text-lg font-bold">
-        <ShieldAlert size={18} /> Data controls
+      <h2 className="flex items-center gap-2 text-base font-semibold text-ink dark:text-white">
+        <ShieldAlert size={16} className="text-rose-500" /> Data controls
       </h2>
-      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Clear local settings, domain rules, theme preference, and recent rename history from this browser.</p>
+      <p className="mt-2 text-sm text-muted-dark dark:text-muted">Clear local settings, domain rules, theme preference, and recent rename history from this browser.</p>
       <Button className="mt-4" variant="danger" onClick={onClearAll}>
-        <Trash2 size={16} /> Clear all local data
+        <Trash2 size={15} /> Clear all local data
       </Button>
     </Card>
   );
