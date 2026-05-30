@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Smart Download Renamer – Icon Concepts</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f4;
+      color: #1c1917;
+      padding: 2.5rem;
+      min-height: 100vh;
+    }
+    h1 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .subtitle { font-size: 0.875rem; color: #78716c; margin-bottom: 2rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.5rem;
+      max-width: 900px;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.25rem 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .icon-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #374151;
+      text-align: center;
+    }
+    .icon-desc {
+      font-size: 0.7rem;
+      color: #9ca3af;
+      text-align: center;
+      line-height: 1.4;
+    }
+    .size-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .size-label {
+      font-size: 0.6rem;
+      color: #d1d5db;
+      text-align: center;
+      margin-top: 2px;
+    }
+    .size-group { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .img-wrap {
+      border-radius: inherit;
+      overflow: hidden;
+      display: flex;
+    }
+    .btn-row { display: flex; gap: 6px; }
+    button {
+      background: #0d9488;
+      color: white;
+      border: none;
+      border-radius: 7px;
+      padding: 5px 10px;
+      font-size: 0.7rem;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 500;
+      transition: background 0.15s;
+    }
+    button:hover { background: #0f766e; }
+    button.secondary {
+      background: #f5f5f4;
+      color: #374151;
+      border: 1px solid #e5e5e5;
+    }
+    button.secondary:hover { background: #e5e5e5; }
+    hr { border: none; border-top: 1px solid #e5e5e5; margin: 2rem 0; max-width: 900px; }
+    .note { font-size: 0.75rem; color: #9ca3af; max-width: 900px; margin-top: 1rem; }
+    canvas { display: none; }
+    .checkerboard {
+      background-image: linear-gradient(45deg, #ddd 25%, transparent 25%),
+        linear-gradient(-45deg, #ddd 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ddd 75%),
+        linear-gradient(-45deg, transparent 75%, #ddd 75%);
+      background-size: 8px 8px;
+      background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Smart Download Renamer — Icon Concepts</h1>
+  <p class="subtitle">5 icon designs shown at multiple sizes. Click "↓ 128px PNG" or "↓ All PNGs" to export.</p>
+
+  <div class="grid" id="grid"></div>
+  <hr/>
+  <div>
+    <button onclick="downloadAll()" style="padding: 8px 18px; font-size: 0.8rem;">↓ Download All 5 PNGs (128×128)</button>
+  </div>
+  <p class="note">Open this file in Chrome for best SVG rendering. PNGs are generated via canvas at 128×128.</p>
+
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const ICONS = [
+      {
+        id: "cascade",
+        name: "Cascade",
+        desc: "Teal gradient\n+ bold arrow",
+        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2dd4bf"/>
+      <stop offset="100%" stop-color="#0d9488"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="26" fill="url(#bg)"/>
+  <path d="M57 20 L71 20 L71 60 L90 60 L64 90 L38 60 L57 60 Z" fill="white"/>
+  <rect x="28" y="101" width="72" height="7" rx="3.5" fill="white" opacity="0.35"/>
+  <rect x="38" y="113" width="52" height="7" rx="3.5" fill="white" opacity="0.18"/>
+</svg>`
+      },
+      {
+        id: "midnight",
+        name: "Midnight",
+        desc: "Dark + glow\n+ sparkle",
+        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="45%" r="48%">
+      <stop offset="0%" stop-color="#14b8a6" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#14b8a6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="128" height="128" rx="26" fill="#0C0A09"/>
+  <rect width="128" height="128" rx="26" fill="url(#glow)"/>
+  <path d="M57 20 L71 20 L71 60 L88 60 L64 88 L40 60 L57 60 Z" fill="#2dd4bf"/>
+  <path d="M96 18 L98.5 26 L107 28.5 L98.5 31 L96 39 L93.5 31 L85 28.5 L93.5 26 Z" fill="#2dd4bf" opacity="0.75"/>
+  <circle cx="22" cy="36" r="2.5" fill="#2dd4bf" opacity="0.45"/>
+  <circle cx="108" cy="74" r="2" fill="#2dd4bf" opacity="0.35"/>
+  <circle cx="19" cy="86" r="1.5" fill="#2dd4bf" opacity="0.28"/>
+  <rect x="28" y="101" width="72" height="6" rx="3" fill="#2dd4bf" opacity="0.28"/>
+  <rect x="38" y="112" width="52" height="6" rx="3" fill="#2dd4bf" opacity="0.14"/>
+</svg>`
+      },
+      {
+        id: "transform",
+        name: "Transform",
+        desc: "Light mint\n+ file rename",
+        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="26" fill="#f0fdf9"/>
+  <rect x="1.5" y="1.5" width="125" height="125" rx="25" fill="none" stroke="#ccfbf1" stroke-width="3"/>
+  <rect x="10" y="30" width="42" height="56" rx="5" fill="#ccfbf1" stroke="#0d9488" stroke-width="2.5"/>
+  <rect x="18" y="44" width="26" height="3.5" rx="1.75" fill="#0d9488" opacity="0.3"/>
+  <rect x="18" y="52" width="18" height="3.5" rx="1.75" fill="#0d9488" opacity="0.3"/>
+  <rect x="18" y="60" width="24" height="3.5" rx="1.75" fill="#0d9488" opacity="0.3"/>
+  <rect x="18" y="68" width="14" height="3.5" rx="1.75" fill="#0d9488" opacity="0.2"/>
+  <path d="M58 57 L70 57 M65 52 L70 57 L65 62" stroke="#0d9488" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <rect x="76" y="30" width="42" height="56" rx="5" fill="#ccfbf1" stroke="#0d9488" stroke-width="2.5"/>
+  <rect x="84" y="44" width="26" height="3.5" rx="1.75" fill="#0d9488" opacity="0.55"/>
+  <rect x="84" y="52" width="26" height="3.5" rx="1.75" fill="#0d9488" opacity="0.4"/>
+  <rect x="84" y="60" width="22" height="3.5" rx="1.75" fill="#0d9488" opacity="0.3"/>
+  <path d="M84 70 L90 76 L102 60" stroke="#059669" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <rect x="10" y="98" width="108" height="7" rx="3.5" fill="#0d9488" opacity="0.1"/>
+  <rect x="22" y="110" width="84" height="7" rx="3.5" fill="#0d9488" opacity="0.05"/>
+</svg>`
+      },
+      {
+        id: "tag",
+        name: "Tag",
+        desc: "Forest green\n+ price tag",
+        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f766e"/>
+      <stop offset="100%" stop-color="#134e4a"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="26" fill="url(#bg4)"/>
+  <path d="M18 30 L94 30 L110 64 L94 98 L18 98 Z" fill="white" fill-opacity="0.12" stroke="white" stroke-width="3" stroke-opacity="0.72" stroke-linejoin="round"/>
+  <circle cx="34" cy="64" r="7" fill="#0f766e" stroke="white" stroke-width="2.5" opacity="0.82"/>
+  <path d="M68 40 L78 40 L78 59 L87 59 L73 76 L59 59 L68 59 Z" fill="white"/>
+  <rect x="52" y="83" width="36" height="4.5" rx="2.25" fill="white" opacity="0.38"/>
+</svg>`
+      },
+      {
+        id: "shield",
+        name: "Shield",
+        desc: "Dark navy\n+ teal shield",
+        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <radialGradient id="sg" cx="50%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#0d9488" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#0d9488" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="128" height="128" rx="26" fill="url(#bg5)"/>
+  <rect width="128" height="128" rx="26" fill="url(#sg)"/>
+  <path d="M64 16 L100 30 L100 70 Q100 98 64 114 Q28 98 28 70 L28 30 Z" fill="#0d9488" fill-opacity="0.18" stroke="#0d9488" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M58 36 L70 36 L70 62 L80 62 L64 82 L48 62 L58 62 Z" fill="white"/>
+</svg>`
+      }
+    ];
+
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const grid = document.getElementById("grid");
+
+    function svgToDataUrl(svgStr) {
+      return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgStr);
+    }
+
+    function exportPng(icon, size, callback) {
+      canvas.width = size;
+      canvas.height = size;
+      ctx.clearRect(0, 0, size, size);
+      const img = new Image();
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, size, size);
+        const url = canvas.toDataURL("image/png");
+        if (callback) callback(url);
+      };
+      img.src = svgToDataUrl(icon.svg);
+    }
+
+    function downloadPng(icon, size) {
+      exportPng(icon, size, (url) => {
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${icon.id}-${size}.png`;
+        a.click();
+      });
+    }
+
+    async function downloadAll() {
+      for (const icon of ICONS) {
+        await new Promise(resolve => {
+          exportPng(icon, 128, (url) => {
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${icon.id}-128.png`;
+            a.click();
+            setTimeout(resolve, 250);
+          });
+        });
+      }
+    }
+
+    ICONS.forEach(icon => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const nameEl = document.createElement("div");
+      nameEl.className = "icon-name";
+      nameEl.textContent = icon.name;
+
+      const sizeRow = document.createElement("div");
+      sizeRow.className = "size-row";
+
+      [128, 48, 32, 16].forEach(sz => {
+        const group = document.createElement("div");
+        group.className = "size-group";
+        const wrap = document.createElement("div");
+        wrap.className = "img-wrap checkerboard";
+        wrap.style.width = sz + "px";
+        wrap.style.height = sz + "px";
+        wrap.style.borderRadius = Math.round(sz * 0.2) + "px";
+        const img = document.createElement("img");
+        img.src = svgToDataUrl(icon.svg);
+        img.width = sz;
+        img.height = sz;
+        img.style.display = "block";
+        wrap.appendChild(img);
+        const label = document.createElement("div");
+        label.className = "size-label";
+        label.textContent = sz + "px";
+        group.append(wrap, label);
+        sizeRow.appendChild(group);
+      });
+
+      const descEl = document.createElement("div");
+      descEl.className = "icon-desc";
+      descEl.style.whiteSpace = "pre-line";
+      descEl.textContent = icon.desc;
+
+      const btnRow = document.createElement("div");
+      btnRow.className = "btn-row";
+      const btn128 = document.createElement("button");
+      btn128.textContent = "↓ 128px";
+      btn128.onclick = () => downloadPng(icon, 128);
+      const btn512 = document.createElement("button");
+      btn512.textContent = "↓ 512px";
+      btn512.className = "secondary";
+      btn512.onclick = () => downloadPng(icon, 512);
+      btnRow.append(btn128, btn512);
+
+      card.append(nameEl, sizeRow, descEl, btnRow);
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>
