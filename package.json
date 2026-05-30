@@ -9,17 +9,19 @@
     "build": "tsc --noEmit && vite build",
     "test": "vitest run",
     "test:watch": "vitest",
+    "icons": "node scripts/generate-icons.js",
     "zip": "npm run build && powershell -NoProfile -ExecutionPolicy Bypass -File scripts/zip-extension.ps1"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",
     "lucide-react": "^0.468.0",
-    "vite": "^6.0.1",
-    "zustand": "^5.0.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "vite": "^6.0.1",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@types/chrome": "^0.0.287",
     "@types/node": "^22.10.1",
     "@types/react": "^18.3.12",
