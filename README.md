@@ -1,251 +1,138 @@
 # Smart Download Renamer
 
-**Name your downloads beautifully.**
+**Automatically rename messy downloads into clean, searchable filenames — 100% local, no account, no backend.**
 
-Smart Download Renamer is a free, local-only Chrome extension that turns messy downloads like `document.pdf`, `invoice(3).pdf`, `download.pdf`, and `receipt.pdf` into clean, searchable filenames.
+[![Version](https://img.shields.io/badge/version-0.1.0-teal)](https://github.com/tahsinsoyak/smartdownload-renamer-extension/releases)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Chrome Extension](https://img.shields.io/badge/Chrome-Manifest%20V3-blue)](https://developer.chrome.com/docs/extensions/mv3/)
+[![Support](https://img.shields.io/badge/Support-Patreon-ff424d)](https://www.patreon.com/tahsinsoyak)
 
-Example output:
+---
 
-- `2026-05-26_Trendyol_Invoice.pdf`
-- `2026-05-26_Bootcamp_Certificate.pdf`
-- `2026-05-26_Bank_Receipt.pdf`
-- `2026-05-26_University_Transcript.pdf`
-- `2026-05-26_GitHub_Download.pdf`
+## Screenshots
 
-## Product Plan
+| Popup | Popup Dark |
+|-------|------------|
+| ![Popup light](screenshots/1-popup-light.png) | ![Popup dark](screenshots/2-popup-dark.png) |
 
-### Problem
+| Options — General | Options — History |
+|-------------------|-------------------|
+| ![Options general](screenshots/3-options-general.png) | ![Options history](screenshots/4-options-history.png) |
 
-Downloads folders become hard to search because many websites use generic names such as `document.pdf`, `file.pdf`, `download.pdf`, `unknown.pdf`, or duplicate names like `invoice(3).pdf`.
+| Options — Domains (dark) |
+|--------------------------|
+| ![Options domains dark](screenshots/5-options-domains-dark.png) |
 
-### Solution
+---
 
-The extension listens for downloads and suggests a cleaner filename before the file completes. It uses only local download metadata:
+## What it does
 
-- Download date
-- Source domain
-- Original filename
-- File extension and MIME type
-- URL keywords
-- User-defined domain rules
+Instead of `invoice(3).pdf`, `download.pdf`, or `document.pdf` you get:
 
-No external AI, backend, login, cloud sync, analytics, ads, affiliate logic, or paywall.
-
-### Core MVP
-
-- Manifest V3 Chrome extension
-- `chrome.downloads.onDeterminingFilename` integration
-- Local rule-based filename suggestion engine
-- Source detection from domain
-- Document type classification
-- Filename sanitization and extension preservation
-- Dangerous executable skip rules
-- Popup UI with toggle, status, preview, and recent renames
-- Options page with templates, domain rules, history, privacy, and data controls
-- `chrome.storage.local` settings and history
-- Unit tests for filename logic
-
-## Privacy Model
-
-Smart Download Renamer works locally in your browser. It uses download metadata only to suggest cleaner filenames. Your filenames, URLs, and rules are not sent to any server.
-
-Stored locally:
-
-- User settings
-- Domain rules
-- Recent rename records
-- Theme preference
-
-Not stored or collected:
-
-- File contents
-- Downloaded files
-- Sensitive document text
-- Browsing history
-- Cookies
-- Account data
-- Analytics events
-
-## Permissions
-
-- `downloads`: needed to detect downloads and suggest filenames.
-- `storage`: needed to save local settings, naming rules, theme preference, and recent rename history.
-
-The MVP intentionally avoids `history`, `cookies`, `webRequest`, `identity`, broad host permissions, content scripts, and remote code.
-
-## Naming Formats
-
-Default:
-
-```text
-{date}_{source}_{type}.{ext}
+```
+2026-05-26_Amazon_Invoice.pdf
+2026-05-26_Udemy_Certificate.pdf
+2026-05-26_Bank_Receipt.pdf
+2026-05-26_GitHub_Download.zip
 ```
 
-Included presets:
+The extension intercepts each download before it hits your folder, reads its URL and metadata locally, and suggests a clean filename automatically.
 
-```text
-{date}_{source}_{type}.{ext}
-{source}_{date}_{type}.{ext}
-{type}_{source}_{date}.{ext}
-{date}/{source}_{type}.{ext}
-{source}/{date}_{type}.{ext}
-{date}_{source}_{type}_{original}.{ext}
-```
+---
 
-Variables:
+## Features
 
-- `{date}`
-- `{source}`
-- `{type}`
-- `{original}`
-- `{ext}`
+- **Automatic renaming** — triggers on every download with zero friction
+- **Source detection** — reads the domain and maps it to a readable name (Amazon, Trendyol, GitHub, …)
+- **Document classification** — detects invoices, receipts, certificates, transcripts, and 10+ other types from filename keywords
+- **Custom templates** — `{date}_{source}_{type}.{ext}` and five built-in presets
+- **Domain rules** — map any domain to a custom source name and default document type
+- **Filename history** — see what was renamed, skipped, or failed with timestamps
+- **Dark mode** — full light/dark support
+- **Skip executables** — never touches `.exe`, `.dmg`, `.pkg` files
+- **No account, no backend, no analytics** — everything runs in your browser
 
-## Document Categories
+---
 
-Supported categories include invoice, receipt, certificate, bank receipt, report, statement, ticket, contract, form, transcript, presentation, image, archive, document, download, and other.
+## Privacy
 
-## Safety Rules
+Smart Download Renamer works entirely locally. It uses Chrome download metadata only to suggest cleaner filenames. Nothing is sent to any server.
 
-- Preserve the original file extension.
-- Sanitize invalid filename characters.
-- Limit filenames to a configurable maximum length.
-- Skip executable files by default: `.exe`, `.msi`, `.bat`, `.cmd`, `.ps1`, `.sh`, `.app`, `.dmg`, `.pkg`.
-- Skip already descriptive filenames when enabled.
-- Allow domain and keyword ignore rules.
-- Use Chrome conflict handling to avoid overwriting existing files.
+**Permissions used:**
+- `downloads` — intercepts download filenames before saving
+- `storage` — saves your settings, rules, and rename history locally
 
-## Tech Stack
+**Not collected:** file contents · cookies · browsing history · analytics · ads · any form of telemetry
 
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- Zustand
-- Vitest
-- Chrome Manifest V3
+---
 
-## Setup
+## Install
+
+### From source
 
 ```bash
+git clone https://github.com/tahsinsoyak/smartdownload-renamer-extension.git
+cd smartdownload-renamer-extension
 npm install
+npm run build
 ```
+
+Then in Chrome:
+1. Go to `chrome://extensions`
+2. Enable **Developer mode**
+3. Click **Load unpacked**
+4. Select the `dist/` folder
+
+### From release
+
+Download `smart-download-renamer.zip` from [Releases](https://github.com/tahsinsoyak/smartdownload-renamer-extension/releases), unzip it, and load the folder as an unpacked extension.
+
+---
 
 ## Development
 
 ```bash
-npm run dev
+npm run dev       # Vite dev server for popup and options UI
+npm run build     # Production build → dist/
+npm run test      # Unit tests (Vitest)
+npm run zip       # Build + package → release/smart-download-renamer.zip
+npm run icons     # Regenerate PNG icons from public/icon.svg
 ```
 
-Vite serves the popup and options page for UI development. Chrome extension APIs are only available when loaded as an unpacked extension.
+---
 
-## Test
+## Filename template variables
 
-```bash
-npm run test
-```
+| Variable | Example output |
+|----------|----------------|
+| `{date}` | `2026-05-26` |
+| `{source}` | `Amazon` |
+| `{type}` | `Invoice` |
+| `{original}` | `invoice(3)` |
+| `{ext}` | `pdf` |
 
-## Build
+Default template: `{date}_{source}_{type}.{ext}`
 
-```bash
-npm run build
-```
+---
 
-The production extension is generated in `dist/`.
+## Tech stack
 
-## Package
+React · TypeScript · Vite · Tailwind CSS · Zustand · Vitest · Chrome Manifest V3
 
-```bash
-npm run zip
-```
+---
 
-The Chrome Web Store upload ZIP is generated at:
+## Support
 
-```text
-release/smart-download-renamer.zip
-```
+If this extension saves you time, consider supporting it on Patreon:
 
-## Load Unpacked In Chrome
+[![Patreon](https://img.shields.io/badge/Support%20on-Patreon-ff424d?logo=patreon&logoColor=white)](https://www.patreon.com/tahsinsoyak)
 
-1. Run `npm run build`.
-2. Open `chrome://extensions`.
-3. Enable Developer mode.
-4. Click Load unpacked.
-5. Select the `dist/` folder.
-6. Download a test PDF from a known source and verify the suggested filename.
-
-## Chrome Web Store Listing Draft
-
-Name:
-
-```text
-Smart Download Renamer
-```
-
-Short description:
-
-```text
-Automatically rename messy downloads into clean, searchable filenames.
-```
-
-Single purpose:
-
-```text
-Automatically suggest cleaner filenames for downloads.
-```
-
-Long description:
-
-```text
-Smart Download Renamer helps keep your Downloads folder organized by suggesting clean filenames for downloaded files. Instead of document.pdf, download.pdf, or invoice(3).pdf, your files can be saved with names like 2026-05-26_Trendyol_Invoice.pdf or 2026-05-26_Bootcamp_Certificate.pdf. The extension works locally, requires no account, and does not send your download data to a server.
-```
-
-Permission explanation:
-
-- `downloads`: needed to detect downloads and suggest filenames.
-- `storage`: needed to save local settings, naming rules, and recent rename history.
-
-Compliance notes:
-
-- One clear purpose
-- No login
-- No backend
-- No hidden data collection
-- No ads
-- No affiliate tracking
-- No broad page access
-- Minimal permissions
-- No remote code
+---
 
 ## Roadmap
 
-### Phase 1: MVP
-
-- Manifest V3 setup
-- Downloads listener
-- Filename suggestion engine
-- Popup UI
-- Local settings
-- Recent rename history
-- Options page
-- Tests
-
-### Phase 2: Polish
-
-- Editable category keyword lists
-- Import/export settings
-- Better skip rules
-- More source-specific rules
-- Manual undo guidance where Chrome APIs allow it
-- Store screenshots for Web Store listing
-
-### Phase 3: Future
-
-- Optional manual review before rename
-- Optional current page title extraction
-- Optional context menu
-- Optional Edge support
-- Optional Firefox support
-- Optional Turkish UI
-- Optional smart folder organization
-- Optional local-only AI later
-
+- [ ] Editable keyword lists per document type
+- [ ] Import / export settings
+- [ ] Manual review before rename
+- [ ] Chrome Web Store listing
+- [ ] Firefox / Edge support
