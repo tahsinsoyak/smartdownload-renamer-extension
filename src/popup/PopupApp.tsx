@@ -1,6 +1,7 @@
-import { Download, FolderOpen, LockKeyhole, Settings, Sparkles, Trash2 } from "lucide-react";
+import { FolderOpen, Heart, Settings, Sparkles, Trash2 } from "lucide-react";
 import { useEffect } from "react";
 import { Button } from "../shared/components/Button";
+import { LogoIcon } from "../shared/components/LogoIcon";
 import { COPY } from "../shared/constants/copy";
 import { useSettingsStore } from "../shared/store/useSettingsStore";
 import { NamingPreview } from "./components/NamingPreview";
@@ -21,51 +22,57 @@ export function PopupApp() {
   }, [theme]);
 
   if (!settings) {
-    return <div className="h-[560px] w-[420px] app-texture p-4" />;
+    return <div className="h-[560px] w-[420px]" />;
   }
 
   return (
-    <main className="app-texture w-[420px] min-h-[560px] text-slate-950 dark:text-white">
-      <div className="bg-white px-5 py-4 shadow-sm dark:bg-slate-950">
-        <header className="flex items-start justify-between gap-4">
-          <div className="flex min-w-0 items-start gap-3">
-            <div className="brand-mark h-10 w-10 shrink-0 rounded-xl">
-              <Download className="relative z-10" size={20} />
-            </div>
-            <div className="min-w-0">
-              <h1 className="text-[16px] font-bold leading-tight text-slate-950 dark:text-white">{COPY.appName}</h1>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{COPY.tagline}</p>
-              <p className="mt-1.5 inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[10px] font-bold uppercase text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                <LockKeyhole size={12} /> Local only
-              </p>
+    <div className="w-[420px] min-h-[560px] bg-bg-subtle dark:bg-night">
+      <div className="px-4 pt-4 pb-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <LogoIcon size={32} />
+            <div>
+              <h1 className="text-sm font-semibold text-ink dark:text-white">{COPY.appName}</h1>
+              <p className="text-[11px] text-muted-dark dark:text-muted">{COPY.tagline}</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <ThemeToggle theme={theme} onToggle={() => setTheme(theme === "dark" ? "light" : "dark")} />
             <QuickToggle enabled={settings.enabled} onChange={(enabled) => updateSettings({ ...settings, enabled })} />
           </div>
-        </header>
+        </div>
       </div>
 
-      <div className="space-y-2.5 p-3">
+      <div className="space-y-2.5 px-4 pb-4">
         <StatusCard enabled={settings.enabled} template={settings.template} />
         <NamingPreview settings={settings} domainRules={domainRules} />
         <RecentRenames records={history} />
-        <div className="grid grid-cols-3 gap-2">
-          <Button variant="ghost" className="h-11 gap-1 px-2 text-xs" onClick={() => chrome.runtime.openOptionsPage()}>
-            <Settings size={15} /> Settings
+
+        <div className="flex items-center gap-2 pt-1">
+          <Button variant="secondary" className="h-9 flex-1 text-xs" onClick={() => chrome.runtime.openOptionsPage()}>
+            <Settings size={13} /> Settings
           </Button>
-          <Button variant="ghost" className="h-11 gap-1 px-2 text-xs" onClick={() => chrome.runtime.sendMessage({ type: "OPEN_DOWNLOADS" })}>
-            <FolderOpen size={15} /> Folder
+          <Button variant="secondary" className="h-9 flex-1 text-xs" onClick={() => chrome.runtime.sendMessage({ type: "OPEN_DOWNLOADS" })}>
+            <FolderOpen size={13} /> Folder
           </Button>
-          <Button variant="ghost" className="h-11 gap-1 px-2 text-xs" onClick={clearHistory}>
-            <Trash2 size={15} /> Clear
+          <Button variant="ghost" className="h-9 flex-1 text-xs" onClick={clearHistory}>
+            <Trash2 size={13} /> Clear
           </Button>
         </div>
-        <p className="flex items-center justify-center gap-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400">
-          <Sparkles size={13} /> Free, private, no backend.
+
+        <p className="flex items-center justify-center gap-1.5 py-1 text-[11px] text-muted">
+          <Sparkles size={11} /> Free, private, no backend.
+          <span className="text-[#d4d0cc] dark:text-lift">·</span>
+          <a
+            href="https://www.patreon.com/tahsinsoyak"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-0.5 text-muted transition-colors hover:text-rose-500 dark:hover:text-rose-400"
+          >
+            <Heart size={10} /> Support
+          </a>
         </p>
       </div>
-    </main>
+    </div>
   );
 }
