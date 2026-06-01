@@ -12,3 +12,4 @@ icons-preview/
 .DS_Store
 Thumbs.db
 ui-screenshots/
+.tmp/
