@@ -1,10 +1,9 @@
 node_modules/
 dist/
 release/
-ui-screenshots/
+icons-preview/
 
 *.log
-vite-ui*.log
 
 .env
 .env.*
@@ -12,3 +11,4 @@ vite-ui*.log
 
 .DS_Store
 Thumbs.db
+ui-screenshots/

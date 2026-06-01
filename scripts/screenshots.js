@@ -85,7 +85,7 @@ const browser = await chromium.launch({
   const p = await ctx.newPage();
   await p.addInitScript(CHROME_MOCK);
   await p.goto(popupUrl, { waitUntil: "networkidle" });
-  await shot(p, "1-popup-light.png");
+  await shot(p, "popup-light.png");
   await ctx.close();
 }
 
@@ -96,7 +96,7 @@ const browser = await chromium.launch({
   await p.addInitScript(CHROME_MOCK);
   await p.addInitScript(DARK_PATCH);
   await p.goto(popupUrl, { waitUntil: "networkidle" });
-  await shot(p, "2-popup-dark.png");
+  await shot(p, "popup-dark.png");
   await ctx.close();
 }
 
@@ -106,7 +106,7 @@ const browser = await chromium.launch({
   const p = await ctx.newPage();
   await p.addInitScript(CHROME_MOCK);
   await p.goto(optionsUrl, { waitUntil: "networkidle" });
-  await shot(p, "3-options-general.png");
+  await shot(p, "options-general.png");
   await ctx.close();
 }
 
@@ -118,7 +118,7 @@ const browser = await chromium.launch({
   await p.goto(optionsUrl, { waitUntil: "networkidle" });
   await p.waitForTimeout(600);
   await p.click("button:has-text('History')");
-  await shot(p, "4-options-history.png");
+  await shot(p, "options-history.png");
   await ctx.close();
 }
 
@@ -131,7 +131,7 @@ const browser = await chromium.launch({
   await p.goto(optionsUrl, { waitUntil: "networkidle" });
   await p.waitForTimeout(600);
   await p.click("button:has-text('Domains')");
-  await shot(p, "5-options-domains-dark.png");
+  await shot(p, "options-domains-dark.png");
   await ctx.close();
 }
 

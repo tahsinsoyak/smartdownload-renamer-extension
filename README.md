@@ -13,15 +13,15 @@
 
 | Popup | Popup Dark |
 |-------|------------|
-| ![Popup light](screenshots/1-popup-light.png) | ![Popup dark](screenshots/2-popup-dark.png) |
+| ![Popup light](screenshots/popup-light.png) | ![Popup dark](screenshots/popup-dark.png) |
 
 | Options — General | Options — History |
 |-------------------|-------------------|
-| ![Options general](screenshots/3-options-general.png) | ![Options history](screenshots/4-options-history.png) |
+| ![Options general](screenshots/options-general.png) | ![Options history](screenshots/options-history.png) |
 
 | Options — Domains (dark) |
 |--------------------------|
-| ![Options domains dark](screenshots/5-options-domains-dark.png) |
+| ![Options domains dark](screenshots/options-domains-dark.png) |
 
 ---
 
