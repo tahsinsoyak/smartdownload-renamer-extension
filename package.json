@@ -10,10 +10,11 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "icons": "node scripts/generate-icons.js",
+    "verify:ui": "npm run build && node scripts/verify-extension-ui.js",
     "zip": "npm run build && powershell -NoProfile -ExecutionPolicy Bypass -File scripts/zip-extension.ps1"
   },
   "dependencies": {
-    "@fontsource-variable/manrope": "^5.2.8",
+    "@fontsource-variable/plus-jakarta-sans": "^5.2.8",
     "lucide-react": "^0.468.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

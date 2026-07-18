@@ -1,6 +1,7 @@
 import { DEFAULT_DOMAIN_RULES } from "../constants/defaultRules";
 import { DEFAULT_SETTINGS } from "../constants/templates";
 import type { DomainRule, NamingSettings, RenameRecord } from "../types/downloads";
+import { getSystemTheme } from "./theme";
 
 const SETTINGS_KEY = "settings";
 const DOMAIN_RULES_KEY = "domainRules";
@@ -76,7 +77,7 @@ export async function clearHistory(): Promise<void> {
 
 export async function getTheme(): Promise<"light" | "dark"> {
   const data = await getLocal(THEME_KEY);
-  return data.theme ?? "light";
+  return data.theme ?? getSystemTheme();
 }
 
 export async function saveTheme(theme: "light" | "dark"): Promise<void> {

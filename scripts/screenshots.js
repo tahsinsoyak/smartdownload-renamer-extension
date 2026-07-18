@@ -114,19 +114,24 @@ async function clickTab(p, label) {
 }
 
 // ── 1. Popup — light ─────────────────────────────────────────────────────────
-{ const { p, ctx } = await openPage("popup.html", "light", { width:420, height:600 });
-  await p.screenshot({ path:`${outDir}/popup-light.png`, clip:{x:0,y:0,width:420,height:600} });
+{ const { p, ctx } = await openPage("popup.html", "light", { width:440, height:640 });
+  await p.screenshot({ path:`${outDir}/popup-light.png`, clip:{x:0,y:0,width:440,height:640} });
   console.log("✓ popup-light.png"); await ctx.close(); }
 
 // ── 2. Popup — dark ──────────────────────────────────────────────────────────
-{ const { p, ctx } = await openPage("popup.html", "dark", { width:420, height:600 });
-  await p.screenshot({ path:`${outDir}/popup-dark.png`, clip:{x:0,y:0,width:420,height:600} });
+{ const { p, ctx } = await openPage("popup.html", "dark", { width:440, height:640 });
+  await p.screenshot({ path:`${outDir}/popup-dark.png`, clip:{x:0,y:0,width:440,height:640} });
   console.log("✓ popup-dark.png"); await ctx.close(); }
 
 // ── 3. Options — General tab ──────────────────────────────────────────────────
 { const { p, ctx } = await openPage("options.html", "light", { width:1200, height:820 });
   await p.screenshot({ path:`${outDir}/options-general.png` });
   console.log("✓ options-general.png"); await ctx.close(); }
+
+// Options — General tab, dark
+{ const { p, ctx } = await openPage("options.html", "dark", { width:1200, height:820 });
+  await p.screenshot({ path:`${outDir}/options-general-dark.png` });
+  console.log("✓ options-general-dark.png"); await ctx.close(); }
 
 // ── 4. Options — History tab ──────────────────────────────────────────────────
 { const { p, ctx } = await openPage("options.html", "light", { width:1200, height:820 });

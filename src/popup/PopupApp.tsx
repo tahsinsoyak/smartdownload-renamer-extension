@@ -19,10 +19,11 @@ export function PopupApp() {
   }, [theme]);
 
   if (!settings) {
-    return <div className="h-[600px] w-[420px] bg-bg-subtle dark:bg-night" />;
+    return <div className="h-[360px] w-[440px] bg-bg-subtle dark:bg-night" />;
   }
 
   const latest = history[0];
+  const heightClass = !latest ? "min-h-[360px]" : history.length > 1 ? "min-h-[640px]" : "min-h-[540px]";
   const openSettings = () => chrome.runtime.openOptionsPage();
   const openHistory = () => {
     const url = chrome.runtime.getURL("options.html#history");
@@ -42,7 +43,7 @@ export function PopupApp() {
   };
 
   return (
-    <div className="flex min-h-[600px] w-[420px] flex-col overflow-hidden bg-bg-subtle dark:bg-night">
+    <div className={`flex w-[440px] flex-col overflow-hidden bg-bg-subtle dark:bg-night ${heightClass}`}>
       <PopupHeader
         enabled={settings.enabled}
         theme={theme}
@@ -50,7 +51,7 @@ export function PopupApp() {
         onThemeToggle={() => setTheme(theme === "dark" ? "light" : "dark")}
       />
 
-      <main className="flex-1 space-y-2.5 px-3 py-3">
+      <main className="flex-1 space-y-3 px-3.5 py-3.5">
         {latest ? (
           <LatestDownloadCard record={latest} onOpenFile={openFile} onShowInFolder={showInFolder} />
         ) : (
