@@ -7,6 +7,7 @@ export function LogoIcon({ size = 36, inverted = false }: LogoIconProps) {
   const background = inverted ? "#FFFFFF" : "#2563EB";
   const page = inverted ? "#2563EB" : "#FFFFFF";
   const detail = inverted ? "#FFFFFF" : "#2563EB";
+  const fold = inverted ? "#DBEAFE" : "#BFDBFE";
 
   return (
     <svg
@@ -19,18 +20,11 @@ export function LogoIcon({ size = 36, inverted = false }: LogoIconProps) {
       aria-label="Smart Download Renamer"
     >
       <rect x="4" y="4" width="120" height="120" rx="30" fill={background} />
-      <path d="M38 25h35l19 19v59H38z" fill={page} />
-      <path d="M73 25v19h19" fill="none" stroke={detail} strokeWidth="5" strokeLinejoin="round" />
-      <path
-        d="M65 43v32m-13-12 13 13 13-13"
-        fill="none"
-        stroke={detail}
-        strokeWidth="8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M50 91h30" fill="none" stroke={detail} strokeWidth="6" strokeLinecap="round" />
-      <circle cx="103" cy="27" r="8" fill="#FBBF24" stroke={background} strokeWidth="4" />
+      <path d="M32 22h43l21 21v63H32V22Z" fill={page} />
+      <path d="M75 22v21h21L75 22Z" fill={fold} />
+      <path d="M56 43h16v25h12L64 90 44 68h12V43Z" fill={detail} />
+      <path d="m103 14 3.4 8.6L115 26l-8.6 3.4L103 38l-3.4-8.6L91 26l8.6-3.4L103 14Z" fill="#FBBF24" />
+      <path d="m22 78 2.2 5.8L30 86l-5.8 2.2L22 94l-2.2-5.8L14 86l5.8-2.2L22 78Z" fill={inverted ? "#93C5FD" : "#BFDBFE"} />
     </svg>
   );
 }
