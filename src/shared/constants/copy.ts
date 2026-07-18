@@ -1,6 +1,6 @@
 export const COPY = {
   appName: "Smart Download Renamer",
-  tagline: "Name your downloads beautifully.",
+  tagline: "Downloads, made findable.",
   alternativeTagline: "Turn messy downloads into organized files.",
   autoOn: "Auto-renaming is on",
   autoOff: "Auto-renaming is off",

@@ -18,6 +18,22 @@ export function registerMessageRouter() {
       return false;
     }
 
+    if (message?.type === "OPEN_FILE" && Number.isInteger(message.downloadId)) {
+      chrome.downloads.open(message.downloadId);
+      sendResponse({ ok: true });
+      return false;
+    }
+
+    if (message?.type === "SHOW_IN_FOLDER") {
+      if (Number.isInteger(message.downloadId)) {
+        chrome.downloads.show(message.downloadId);
+      } else {
+        chrome.downloads.showDefaultFolder();
+      }
+      sendResponse({ ok: true });
+      return false;
+    }
+
     return false;
   });
 }

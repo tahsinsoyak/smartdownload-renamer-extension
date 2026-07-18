@@ -52,7 +52,22 @@ export async function getHistory(): Promise<RenameRecord[]> {
 
 export async function addHistoryRecord(record: RenameRecord): Promise<void> {
   const current = await getHistory();
-  await setLocal({ renameHistory: [record, ...current].slice(0, HISTORY_LIMIT) });
+  const withoutExisting = current.filter((item) => item.id !== record.id);
+  await setLocal({ renameHistory: [record, ...withoutExisting].slice(0, HISTORY_LIMIT) });
+}
+
+export async function updateHistoryRecord(
+  downloadId: number,
+  updates: Partial<RenameRecord>
+): Promise<void> {
+  const current = await getHistory();
+  const next = current.map((item) =>
+    item.downloadId === downloadId ? { ...item, ...updates } : item
+  );
+
+  if (next.some((item, index) => item !== current[index])) {
+    await setLocal({ renameHistory: next });
+  }
 }
 
 export async function clearHistory(): Promise<void> {

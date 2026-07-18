@@ -1,85 +1,53 @@
-import { Globe } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { displayFilename, formatRelativeTime } from "../../shared/lib/formatDownload";
 import type { RenameRecord } from "../../shared/types/downloads";
-import { EmptyState } from "./EmptyState";
 
-function StatusDot({ status }: { status: RenameRecord["status"] }) {
-  const cls = {
-    renamed: "bg-emerald-500",
-    skipped: "bg-stone-400 dark:bg-stone-600",
-    failed: "bg-rose-500",
-  }[status];
-  return <span className={`mt-[5px] h-2 w-2 flex-shrink-0 rounded-full ${cls}`} />;
-}
+type RecentRenamesProps = {
+  records: RenameRecord[];
+  onViewAll: () => void;
+};
 
-export function RecentRenames({ records }: { records: RenameRecord[] }) {
-  const renamed = records.filter((r) => r.status === "renamed").length;
-  const skipped = records.filter((r) => r.status === "skipped").length;
+const statusColors = {
+  renamed: "bg-blue-600 dark:bg-blue-400",
+  skipped: "bg-slate-400 dark:bg-slate-500",
+  failed: "bg-rose-500",
+};
+
+export function RecentRenames({ records, onViewAll }: RecentRenamesProps) {
+  if (records.length === 0) return null;
 
   return (
-    <div className="rounded-xl bg-surface shadow-card dark:bg-panel">
-      <div className="px-4 py-3.5">
-        <div className="mb-2.5 flex items-center justify-between">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-dark dark:text-muted">Recent</p>
-          {records.length > 0 && (
-            <div className="flex items-center gap-2.5 text-[11px] text-muted-dark dark:text-muted">
-              {renamed > 0 && (
-                <span className="flex items-center gap-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                  {renamed}
-                </span>
-              )}
-              {skipped > 0 && (
-                <span className="flex items-center gap-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-stone-400" />
-                  {skipped}
-                </span>
-              )}
-            </div>
-          )}
+    <section className="rounded-xl border border-[#ccd9ee] bg-white px-4 pb-1.5 pt-3 shadow-card dark:border-lift dark:bg-panel">
+      <div className="flex items-center justify-between pb-2">
+        <div className="flex items-center gap-2">
+          <h2 className="text-[11px] font-bold text-ink dark:text-white">Recent activity</h2>
+          <span className="grid min-w-[18px] place-items-center rounded-full bg-accent-soft px-1.5 py-0.5 text-[8px] font-bold text-blue-700 dark:bg-[#172c52] dark:text-blue-300">
+            {records.length}
+          </span>
         </div>
-
-        {records.length === 0 ? (
-          <EmptyState />
-        ) : (
-          <div className="divide-y divide-[#f5f5f4] dark:divide-lift">
-            {records.slice(0, 4).map((record) => (
-              <div
-                key={record.id}
-                className="animate-rise flex items-start gap-2.5 py-2.5 first:pt-0 last:pb-0"
-              >
-                <StatusDot status={record.status} />
-                <div className="min-w-0 flex-1">
-                  <p className="filename-line text-sm font-medium text-ink dark:text-white">
-                    {record.status === "renamed" ? record.suggestedFilename : record.originalFilename}
-                  </p>
-                  {record.status === "renamed" && (
-                    <p className="filename-line mt-px text-xs text-muted-dark dark:text-muted">
-                      ← {record.originalFilename}
-                    </p>
-                  )}
-                  {(record.sourceDomain || record.sourceName) && (
-                    <p className="mt-0.5 flex items-center gap-1 text-[11px] text-muted">
-                      <Globe size={9} className="flex-shrink-0" />
-                      <span className="filename-line">{record.sourceDomain || record.sourceName}</span>
-                    </p>
-                  )}
-                </div>
-                <span
-                  className={`mt-0.5 flex-shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium ${
-                    record.status === "renamed"
-                      ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
-                      : record.status === "failed"
-                        ? "bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400"
-                        : "bg-stone-100 text-stone-500 dark:bg-stone-800/60 dark:text-stone-400"
-                  }`}
-                >
-                  {record.status}
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
+        <button className="cursor-pointer text-[9.5px] font-bold text-blue-700 hover:text-blue-900 dark:text-blue-300 dark:hover:text-blue-200" onClick={onViewAll}>
+          View all
+        </button>
       </div>
-    </div>
+
+      <div className="divide-y divide-[#dbe3f0] dark:divide-lift">
+        {records.slice(0, 2).map((record) => (
+          <div key={record.id} className="grid min-h-[47px] animate-rise grid-cols-[7px_minmax(0,1fr)_14px] items-center gap-2.5">
+            <span className={`h-2 w-2 rounded-full ${statusColors[record.status]}`} aria-label={record.status} />
+            <div className="min-w-0">
+              <p className="filename-line text-[10.5px] font-bold text-ink dark:text-white" title={displayFilename(record)}>
+                {displayFilename(record)}
+              </p>
+              <p className="filename-line mt-0.5 text-[9px] text-slate-500 dark:text-slate-400">
+                {record.status === "renamed" ? record.originalFilename : record.reason || "Unchanged"}
+                <span className="mx-1.5 text-slate-300 dark:text-slate-600">·</span>
+                {formatRelativeTime(record.completedAt || record.createdAt)}
+              </p>
+            </div>
+            <ArrowRight size={13} className="text-slate-400" aria-hidden="true" />
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }

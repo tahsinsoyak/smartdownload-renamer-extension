@@ -1,160 +1,139 @@
-import { Clock, Download, Globe, Search, Trash2 } from "lucide-react";
+import { Clock, Download, ExternalLink, FolderOpen, Search, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Button } from "../../shared/components/Button";
 import { Card } from "../../shared/components/Card";
 import { Input } from "../../shared/components/Input";
+import {
+  displayFilename,
+  formatDownloadLocation,
+  formatFileSize,
+  formatRelativeTime,
+} from "../../shared/lib/formatDownload";
 import type { RenameRecord } from "../../shared/types/downloads";
 
-function StatusDot({ status }: { status: RenameRecord["status"] }) {
-  const cls = {
-    renamed: "bg-emerald-500",
-    skipped: "bg-stone-400 dark:bg-stone-600",
-    failed: "bg-rose-500",
-  }[status];
-  return <span className={`mt-1 h-2 w-2 flex-shrink-0 rounded-full ${cls}`} />;
-}
+const statusStyles = {
+  renamed: "bg-blue-50 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300",
+  skipped: "bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300",
+  failed: "bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300",
+};
 
-function StatusBadge({ status }: { status: RenameRecord["status"] }) {
-  const cls = {
-    renamed: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400",
-    skipped: "bg-stone-100 text-stone-500 dark:bg-stone-800 dark:text-stone-400",
-    failed: "bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-400",
-  }[status];
-  return (
-    <span className={`flex-shrink-0 self-start rounded px-1.5 py-0.5 text-[10px] font-medium ${cls}`}>
-      {status}
-    </span>
-  );
-}
-
-function RelativeTime({ createdAt }: { createdAt: string }) {
-  const diffMs = Date.now() - new Date(createdAt).getTime();
-  const mins = Math.floor(diffMs / 60_000);
-  const hours = Math.floor(diffMs / 3_600_000);
-  const days = Math.floor(diffMs / 86_400_000);
-
-  let label: string;
-  if (mins < 2) label = "Just now";
-  else if (mins < 60) label = `${mins}m ago`;
-  else if (hours < 24) label = `${hours}h ago`;
-  else if (days === 1) label = "Yesterday";
-  else if (days < 7) label = `${days}d ago`;
-  else label = new Date(createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" });
-
-  return <span>{label}</span>;
-}
+const statusLabels = {
+  renamed: "Renamed",
+  skipped: "Kept original",
+  failed: "Failed",
+};
 
 export function RecentHistory({ history, onClear }: { history: RenameRecord[]; onClear: () => void }) {
   const [query, setQuery] = useState("");
   const filtered = useMemo(
-    () => history.filter((r) => JSON.stringify(r).toLowerCase().includes(query.toLowerCase())),
+    () => history.filter((record) => JSON.stringify(record).toLowerCase().includes(query.toLowerCase())),
     [history, query]
   );
+
+  const renamedCount = history.filter((record) => record.status === "renamed").length;
+  const skippedCount = history.filter((record) => record.status === "skipped").length;
 
   const exportJson = () => {
     const blob = new Blob([JSON.stringify(history, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "smart-download-renamer-history.json";
-    a.click();
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "smart-download-renamer-history.json";
+    anchor.click();
     URL.revokeObjectURL(url);
   };
 
-  const renamedCount = history.filter((r) => r.status === "renamed").length;
-  const skippedCount = history.filter((r) => r.status === "skipped").length;
+  const openFile = (record: RenameRecord) => {
+    if (record.downloadId !== undefined) {
+      void chrome.runtime.sendMessage({ type: "OPEN_FILE", downloadId: record.downloadId });
+    }
+  };
+
+  const showInFolder = (record: RenameRecord) => {
+    void chrome.runtime.sendMessage({ type: "SHOW_IN_FOLDER", downloadId: record.downloadId });
+  };
 
   return (
-    <Card className="p-5">
-      {/* Header */}
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h2 className="text-base font-semibold text-ink dark:text-white">History</h2>
+    <Card className="overflow-hidden">
+      <div className="border-b border-border-light bg-gradient-to-r from-blue-50 to-white p-5 dark:border-lift dark:from-[#172c52] dark:to-panel">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 className="text-base font-bold text-ink dark:text-white">Download history</h2>
+            <p className="mt-1 text-xs text-muted-dark dark:text-muted">Find renamed files, their original names, and where they were saved.</p>
+            {history.length > 0 && (
+              <div className="mt-3 flex items-center gap-4 text-[11px] font-semibold text-muted-dark dark:text-muted">
+                <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-blue-600" />{renamedCount} renamed</span>
+                <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-amber-500" />{skippedCount} kept original</span>
+              </div>
+            )}
+          </div>
           {history.length > 0 && (
-            <div className="mt-1.5 flex items-center gap-3 text-xs text-muted-dark dark:text-muted">
-              <span className="flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                {renamedCount} renamed
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-stone-400" />
-                {skippedCount} skipped
-              </span>
+            <div className="flex gap-2">
+              <Button variant="secondary" onClick={exportJson}><Download size={13} /> Export</Button>
+              <Button variant="ghost" className="hover:text-rose-600 dark:hover:text-rose-400" onClick={onClear}><Trash2 size={13} /> Clear</Button>
             </div>
           )}
         </div>
+
         {history.length > 0 && (
-          <div className="flex gap-2">
-            <Button variant="secondary" onClick={exportJson}>
-              <Download size={13} /> Export
-            </Button>
-            <Button variant="ghost" className="hover:text-rose-600 dark:hover:text-rose-400" onClick={onClear}>
-              <Trash2 size={13} /> Clear
-            </Button>
+          <div className="relative mt-4">
+            <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+            <Input className="bg-white pl-9 dark:bg-[#0d1a2e]" placeholder="Filter by filename, source, location, or status…" value={query} onChange={(event) => setQuery(event.target.value)} aria-label="Filter download history" />
           </div>
         )}
       </div>
 
-      {/* Search */}
-      {history.length > 0 && (
-        <div className="relative mt-4">
-          <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted" size={13} />
-          <Input
-            className="pl-9 text-sm"
-            placeholder="Filter by filename, source, status…"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-        </div>
-      )}
-
-      {/* List */}
-      <div className="mt-3">
+      <div className="p-4">
         {history.length === 0 ? (
           <div className="flex flex-col items-center py-12 text-center">
-            <Clock size={28} className="mb-3 text-muted opacity-40" />
-            <p className="text-sm font-medium text-muted-dark dark:text-muted">No downloads yet</p>
-            <p className="mt-1 text-xs text-muted opacity-70">Files will appear here as they are downloaded</p>
+            <span className="mb-3 grid h-12 w-12 place-items-center rounded-2xl bg-blue-50 text-blue-500 dark:bg-[#172c52] dark:text-blue-300"><Clock size={22} /></span>
+            <p className="text-sm font-bold text-ink dark:text-white">No downloads yet</p>
+            <p className="mt-1 max-w-xs text-xs leading-5 text-muted-dark dark:text-muted">Your next download will appear here with its new name and saved location.</p>
           </div>
         ) : filtered.length === 0 ? (
-          <p className="py-8 text-center text-sm text-muted-dark dark:text-muted">
-            No results for &ldquo;{query}&rdquo;
-          </p>
+          <p className="py-10 text-center text-sm text-muted-dark dark:text-muted">No results for “{query}”</p>
         ) : (
-          <div className="divide-y divide-[#f0f0ee] dark:divide-lift">
-            {filtered.slice(0, 20).map((item) => (
-              <div key={item.id} className="flex items-start gap-3 py-2.5 first:pt-0 last:pb-0">
-                <StatusDot status={item.status} />
-                <div className="min-w-0 flex-1 space-y-0.5">
-                  <p className="filename-line text-sm font-medium text-ink dark:text-white">
-                    {item.status === "renamed" ? item.suggestedFilename : item.originalFilename}
-                  </p>
-                  {item.status === "renamed" && (
-                    <p className="filename-line text-xs text-muted-dark dark:text-muted">
-                      ← {item.originalFilename}
-                    </p>
-                  )}
-                  <div className="flex items-center gap-1.5 text-[11px] text-muted">
-                    {(item.sourceDomain || item.sourceName) && (
-                      <>
-                        <Globe size={10} className="flex-shrink-0" />
-                        <span className="filename-line max-w-[160px]">{item.sourceDomain || item.sourceName}</span>
-                        <span className="text-[#d4d0cc] dark:text-lift">·</span>
-                      </>
-                    )}
-                    <RelativeTime createdAt={item.createdAt} />
+          <div className="space-y-2.5">
+            {filtered.slice(0, 20).map((record) => {
+              const canOpen = record.downloadId !== undefined && record.exists !== false && Boolean(record.completedAt);
+              return (
+                <article key={record.id} className="group rounded-xl border border-[#d7e0ee] bg-white p-3.5 transition-colors hover:border-blue-300 hover:bg-blue-50/30 dark:border-lift dark:bg-[#0d1a2e] dark:hover:border-blue-700 dark:hover:bg-[#12213a]">
+                  <div className="flex items-start gap-3">
+                    <span className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${record.status === "renamed" ? "bg-blue-600" : record.status === "failed" ? "bg-rose-500" : "bg-amber-500"}`} />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-start justify-between gap-2">
+                        <div className="min-w-0">
+                          <h3 className="filename-line text-sm font-bold text-ink dark:text-white" title={displayFilename(record)}>{displayFilename(record)}</h3>
+                          {record.status === "renamed" && <p className="filename-line mt-0.5 text-xs text-muted-dark dark:text-muted" title={record.originalFilename}>was {record.originalFilename}</p>}
+                        </div>
+                        <span className={`shrink-0 rounded-full px-2 py-1 text-[9px] font-bold ${statusStyles[record.status]}`}>{statusLabels[record.status]}</span>
+                      </div>
+
+                      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10.5px] text-slate-500 dark:text-slate-400">
+                        <span>{record.sourceDomain || record.sourceName || "Unknown source"}</span>
+                        <span>{formatFileSize(record.fileSize)}</span>
+                        <span>{formatRelativeTime(record.completedAt || record.createdAt)}</span>
+                      </div>
+
+                      <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 rounded-lg bg-[#f3f6fc] px-2.5 py-2 dark:bg-[#111f35]">
+                        <span className="flex min-w-0 items-center gap-1.5 text-[10.5px] font-semibold text-slate-600 dark:text-slate-300" title={record.fullPath}>
+                          <FolderOpen size={12} className="shrink-0 text-blue-600 dark:text-blue-300" />
+                          <span className="filename-line">{formatDownloadLocation(record.fullPath)}</span>
+                        </span>
+                        <span className="flex shrink-0 items-center gap-1">
+                          <button className="grid h-7 w-7 cursor-pointer place-items-center rounded-md text-slate-500 transition-colors hover:bg-white hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-35 dark:hover:bg-lift dark:hover:text-blue-300" onClick={() => openFile(record)} disabled={!canOpen} aria-label={`Open ${displayFilename(record)}`} title="Open file"><ExternalLink size={13} /></button>
+                          <button className="grid h-7 w-7 cursor-pointer place-items-center rounded-md text-slate-500 transition-colors hover:bg-white hover:text-blue-700 dark:hover:bg-lift dark:hover:text-blue-300" onClick={() => showInFolder(record)} aria-label={`Show ${displayFilename(record)} in folder`} title="Show in folder"><FolderOpen size={13} /></button>
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <StatusBadge status={item.status} />
-              </div>
-            ))}
+                </article>
+              );
+            })}
           </div>
         )}
-        {filtered.length > 20 && (
-          <p className="mt-2 text-center text-xs text-muted">
-            Showing 20 of {filtered.length} — export JSON to see all
-          </p>
-        )}
+
+        {filtered.length > 20 && <p className="mt-3 text-center text-xs text-muted">Showing 20 of {filtered.length} · export JSON to see all</p>}
       </div>
     </Card>
   );

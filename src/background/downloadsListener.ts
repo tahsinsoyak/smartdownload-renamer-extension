@@ -1,5 +1,10 @@
 import { buildFilename } from "../shared/lib/buildFilename";
-import { addHistoryRecord, getDomainRules, getSettings } from "../shared/lib/storage";
+import {
+  addHistoryRecord,
+  getDomainRules,
+  getSettings,
+  updateHistoryRecord,
+} from "../shared/lib/storage";
 import type { RenameRecord } from "../shared/types/downloads";
 
 function downloadFilename(item: chrome.downloads.DownloadItem): string {
@@ -20,7 +25,8 @@ async function recordSuggestion(
   reason?: string
 ) {
   await addHistoryRecord({
-    id: `${item.id}-${Date.now()}`,
+    id: `download-${item.id}`,
+    downloadId: item.id,
     originalFilename: suggestion.originalFilename,
     suggestedFilename: suggestion.filename,
     finalFilename: status === "renamed" ? suggestion.filename : undefined,
@@ -33,6 +39,19 @@ async function recordSuggestion(
     createdAt: new Date().toISOString(),
     status,
     reason
+  });
+}
+
+async function syncCompletedDownload(downloadId: number) {
+  const [item] = await chrome.downloads.search({ id: downloadId });
+  if (!item) return;
+
+  await updateHistoryRecord(downloadId, {
+    finalFilename: downloadFilename(item),
+    fullPath: item.filename || undefined,
+    fileSize: item.fileSize >= 0 ? item.fileSize : item.totalBytes >= 0 ? item.totalBytes : undefined,
+    completedAt: item.endTime,
+    exists: item.exists,
   });
 }
 
@@ -68,7 +87,8 @@ export function registerDownloadsListener() {
     })().catch(async (error: unknown) => {
       const message = error instanceof Error ? error.message : "Unknown download rename error";
       await addHistoryRecord({
-        id: `${item.id}-${Date.now()}`,
+        id: `download-${item.id}`,
+        downloadId: item.id,
         originalFilename: downloadFilename(item),
         suggestedFilename: downloadFilename(item),
         documentType: "download",
@@ -83,5 +103,11 @@ export function registerDownloadsListener() {
     });
 
     return true;
+  });
+
+  chrome.downloads.onChanged.addListener((delta) => {
+    if (delta.state?.current === "complete") {
+      void syncCompletedDownload(delta.id);
+    }
   });
 }

@@ -3,8 +3,7 @@ import { Button } from "../../shared/components/Button";
 import { Card } from "../../shared/components/Card";
 import { COPY } from "../../shared/constants/copy";
 import { DOCUMENT_TYPE_KEYWORDS } from "../../shared/constants/documentTypes";
-
-const PATREON_URL = "https://www.patreon.com/tahsinsoyak";
+import { SUPPORT_URL } from "../../shared/constants/links";
 
 export function AboutTab({ onClearAll }: { onClearAll: () => void }) {
   return (
@@ -22,7 +21,7 @@ export function AboutTab({ onClearAll }: { onClearAll: () => void }) {
             </p>
           </div>
           <a
-            href={PATREON_URL}
+            href={SUPPORT_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="flex shrink-0 items-center gap-2 rounded-lg bg-[#ff424d] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90 active:opacity-80"
@@ -36,22 +35,25 @@ export function AboutTab({ onClearAll }: { onClearAll: () => void }) {
       {/* Privacy */}
       <Card className="p-5">
         <h2 className="flex items-center gap-2 text-sm font-semibold text-ink dark:text-white">
-          <LockKeyhole size={14} className="text-teal-500" />
+          <LockKeyhole size={14} className="text-blue-600 dark:text-blue-300" />
           Privacy
         </h2>
         <p className="mt-2 text-sm leading-6 text-muted-dark dark:text-muted">{COPY.privacy}</p>
         <div className="mt-4 grid gap-2 sm:grid-cols-2">
-          <div className="rounded-lg bg-[#fafafa] p-4 dark:bg-[#141414]">
+          <div className="rounded-xl border border-[#d7e0ee] bg-[#f8faff] p-4 dark:border-lift dark:bg-[#0d1a2e]">
             <p className="text-xs font-semibold text-ink dark:text-white">Permissions used</p>
             <p className="mt-2 text-xs leading-5 text-muted-dark dark:text-muted">
-              <span className="font-medium text-ink dark:text-white">downloads</span> — detects new downloads
-              and suggests filenames.
+              <span className="font-medium text-ink dark:text-white">downloads</span> — detects downloads,
+              suggests filenames, and reveals files in their folders.
+              <br />
+              <span className="font-medium text-ink dark:text-white">downloads.open</span> — opens a completed
+              file only when you choose Open file.
               <br />
               <span className="font-medium text-ink dark:text-white">storage</span> — saves rules and history
               locally.
             </p>
           </div>
-          <div className="rounded-lg bg-[#fafafa] p-4 dark:bg-[#141414]">
+          <div className="rounded-xl border border-[#d7e0ee] bg-[#f8faff] p-4 dark:border-lift dark:bg-[#0d1a2e]">
             <p className="text-xs font-semibold text-ink dark:text-white">Not collected</p>
             <p className="mt-2 text-xs leading-5 text-muted-dark dark:text-muted">
               File contents · cookies · accounts · browsing history · analytics · ads · backend calls.
@@ -85,7 +87,7 @@ export function AboutTab({ onClearAll }: { onClearAll: () => void }) {
           {Object.entries(DOCUMENT_TYPE_KEYWORDS)
             .filter(([, kw]) => kw.length > 0)
             .map(([type, kw]) => (
-              <div key={type} className="rounded-lg bg-[#fafafa] p-3 dark:bg-[#141414]">
+              <div key={type} className="rounded-lg border border-[#d7e0ee] bg-[#f8faff] p-3 dark:border-lift dark:bg-[#0d1a2e]">
                 <p className="text-xs font-semibold capitalize text-ink dark:text-white">
                   {type.replace("_", " ")}
                 </p>

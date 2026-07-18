@@ -54,10 +54,10 @@ const MOCK = {
   ],
   // Storage key is "renameHistory" (see src/shared/lib/storage.ts HISTORY_KEY)
   renameHistory: [
-    { id:"h1", originalFilename:"invoice(3).pdf",         suggestedFilename:"2026-05-30_Amazon_Invoice.pdf",     sourceDomain:"amazon.com.tr",  sourceName:"Amazon",  documentType:"invoice",     fileExtension:"pdf", createdAt:new Date(now-3600000).toISOString(),   status:"renamed" },
-    { id:"h2", originalFilename:"stripe_backup_code.txt", suggestedFilename:"stripe_backup_code.txt",           sourceDomain:"stripe.com",     sourceName:"Stripe",  documentType:"download",    fileExtension:"txt", createdAt:new Date(now-93600000).toISOString(),  status:"skipped" },
-    { id:"h3", originalFilename:"download.pdf",           suggestedFilename:"2026-05-29_Udemy_Certificate.pdf", sourceDomain:"udemy.com",      sourceName:"Udemy",   documentType:"certificate", fileExtension:"pdf", createdAt:new Date(now-180000000).toISOString(), status:"renamed" },
-    { id:"h4", originalFilename:"giftmemory.zip",         suggestedFilename:"2026-05-28_Website_Form.zip",      sourceDomain:"giftmemory.app", sourceName:"Website", documentType:"archive",     fileExtension:"zip", createdAt:new Date(now-270000000).toISOString(), status:"renamed" },
+    { id:"h1", downloadId:101, originalFilename:"invoice(3).pdf",         suggestedFilename:"2026-07-19_Amazon_Invoice.pdf", finalFilename:"2026-07-19_Amazon_Invoice.pdf", fullPath:"C:\\Users\\Taylor\\Downloads\\Documents\\Receipts\\2026-07-19_Amazon_Invoice.pdf", fileSize:253952, completedAt:new Date(now-12000).toISOString(), exists:true, sourceDomain:"amazon.com.tr",  sourceName:"Amazon",  documentType:"invoice",     fileExtension:"pdf", createdAt:new Date(now-15000).toISOString(), status:"renamed" },
+    { id:"h2", downloadId:102, originalFilename:"certificate.pdf",       suggestedFilename:"2026-07-18_Udemy_Certificate.pdf", finalFilename:"2026-07-18_Udemy_Certificate.pdf", fullPath:"C:\\Users\\Taylor\\Downloads\\Courses\\2026-07-18_Udemy_Certificate.pdf", fileSize:892144, completedAt:new Date(now-93600000).toISOString(), exists:true, sourceDomain:"udemy.com", sourceName:"Udemy", documentType:"certificate", fileExtension:"pdf", createdAt:new Date(now-93605000).toISOString(), status:"renamed" },
+    { id:"h3", downloadId:103, originalFilename:"stripe_backup_code.txt", suggestedFilename:"stripe_backup_code.txt", finalFilename:"stripe_backup_code.txt", fullPath:"C:\\Users\\Taylor\\Downloads\\stripe_backup_code.txt", fileSize:2048, completedAt:new Date(now-180000000).toISOString(), exists:true, sourceDomain:"stripe.com", sourceName:"Stripe", documentType:"download", fileExtension:"txt", createdAt:new Date(now-180005000).toISOString(), status:"skipped", reason:"Filename is already descriptive" },
+    { id:"h4", downloadId:104, originalFilename:"giftmemory.zip",         suggestedFilename:"2026-07-16_Website_Archive.zip", finalFilename:"2026-07-16_Website_Archive.zip", fullPath:"C:\\Users\\Taylor\\Downloads\\Archives\\2026-07-16_Website_Archive.zip", fileSize:5242880, completedAt:new Date(now-270000000).toISOString(), exists:true, sourceDomain:"giftmemory.app", sourceName:"Website", documentType:"archive", fileExtension:"zip", createdAt:new Date(now-270005000).toISOString(), status:"renamed" },
   ],
 };
 
@@ -84,7 +84,7 @@ function buildInitScript(theme) {
     try { Object.defineProperty(chrome, "storage", { value:{ local: mockLocal }, writable:true, configurable:true }); } catch (_) {}
     // Patch runtime for openOptionsPage / sendMessage used by popup buttons
     try { chrome.runtime = { getURL: p => p, openOptionsPage: () => {}, sendMessage: () => {}, lastError: null }; } catch (_) {}
-    try { chrome.downloads = { showDefaultFolder: () => {} }; } catch (_) {}
+    try { chrome.downloads = { open: () => {}, show: () => {}, showDefaultFolder: () => {} }; } catch (_) {}
     ${theme === "dark" ? 'document.documentElement.classList.add("dark");' : ""}
   })();`;
 }

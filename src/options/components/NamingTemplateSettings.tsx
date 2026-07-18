@@ -1,57 +1,67 @@
-import { Select } from "../../shared/components/Select";
-import { Input } from "../../shared/components/Input";
+import { Braces, CalendarDays, Ruler } from "lucide-react";
 import { Card } from "../../shared/components/Card";
+import { Input } from "../../shared/components/Input";
+import { Select } from "../../shared/components/Select";
 import { Switch } from "../../shared/components/Switch";
 import { TEMPLATE_PRESETS } from "../../shared/constants/templates";
 import type { NamingSettings } from "../../shared/types/downloads";
 
 export function NamingTemplateSettings({ settings, onChange }: { settings: NamingSettings; onChange: (settings: NamingSettings) => void }) {
   return (
-    <Card className="p-5">
-      <h2 className="text-base font-semibold text-ink dark:text-white">Filename template</h2>
-      <p className="mt-1 text-sm text-muted-dark dark:text-muted">Choose a pattern or write your own with date, source, type, original, and ext variables.</p>
-      <div className="mt-5 grid gap-4 md:grid-cols-2">
-        <label className="space-y-1.5">
-          <span className="text-sm font-medium text-ink dark:text-white">Default template</span>
-          <Select value={settings.template} onChange={(event) => onChange({ ...settings, template: event.target.value })}>
-            {TEMPLATE_PRESETS.map((template) => (
-              <option key={template} value={template}>
-                {template}
-              </option>
-            ))}
-          </Select>
-        </label>
-        <label className="space-y-1.5">
-          <span className="text-sm font-medium text-ink dark:text-white">Custom template</span>
-          <Input value={settings.template} onChange={(event) => onChange({ ...settings, template: event.target.value })} />
-        </label>
-        <label className="space-y-1.5">
-          <span className="text-sm font-medium text-ink dark:text-white">Date format</span>
-          <Select value={settings.dateFormat} onChange={(event) => onChange({ ...settings, dateFormat: event.target.value as NamingSettings["dateFormat"] })}>
-            <option value="YYYY-MM-DD">YYYY-MM-DD</option>
-            <option value="DD-MM-YYYY">DD-MM-YYYY</option>
-            <option value="YYYYMMDD">YYYYMMDD</option>
-          </Select>
-        </label>
-        <label className="space-y-1.5">
-          <span className="text-sm font-medium text-ink dark:text-white">Max filename length</span>
-          <Input type="number" min={60} max={180} value={settings.maxFilenameLength} onChange={(event) => onChange({ ...settings, maxFilenameLength: Number(event.target.value) })} />
-        </label>
-      </div>
-      <div className="mt-5 grid gap-3 md:grid-cols-3">
-        <Toggle label="Preserve original" checked={settings.preserveOriginalName} onChange={(value) => onChange({ ...settings, preserveOriginalName: value })} />
-        <Toggle label="ASCII-safe mode" checked={settings.asciiSafeMode} onChange={(value) => onChange({ ...settings, asciiSafeMode: value })} />
-        <Toggle label="Allow Turkish characters" checked={settings.allowTurkishCharacters} onChange={(value) => onChange({ ...settings, allowTurkishCharacters: value })} />
-      </div>
-    </Card>
+    <div className="space-y-4">
+      <Card className="overflow-hidden">
+        <div className="flex items-start gap-3 border-b border-border-light bg-gradient-to-r from-blue-50 to-white p-5 dark:border-lift dark:from-[#172c52] dark:to-panel">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-blue-600 text-white dark:bg-blue-400 dark:text-night"><Braces size={18} /></span>
+          <div>
+            <h2 className="text-base font-bold text-ink dark:text-white">Filename template</h2>
+            <p className="mt-1 text-sm text-muted-dark dark:text-muted">Build predictable filenames from date, source, document type, original name, and extension.</p>
+          </div>
+        </div>
+
+        <div className="grid gap-4 p-5 md:grid-cols-2">
+          <Field label="Template preset" icon={<Braces size={13} />}>
+            <Select value={settings.template} onChange={(event) => onChange({ ...settings, template: event.target.value })}>
+              {TEMPLATE_PRESETS.map((template) => <option key={template} value={template}>{template}</option>)}
+            </Select>
+          </Field>
+          <Field label="Custom template" icon={<Braces size={13} />}>
+            <Input className="font-mono" value={settings.template} onChange={(event) => onChange({ ...settings, template: event.target.value })} />
+          </Field>
+          <Field label="Date format" icon={<CalendarDays size={13} />}>
+            <Select value={settings.dateFormat} onChange={(event) => onChange({ ...settings, dateFormat: event.target.value as NamingSettings["dateFormat"] })}>
+              <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+              <option value="DD-MM-YYYY">DD-MM-YYYY</option>
+              <option value="YYYYMMDD">YYYYMMDD</option>
+            </Select>
+          </Field>
+          <Field label="Maximum filename length" icon={<Ruler size={13} />}>
+            <Input type="number" min={60} max={180} value={settings.maxFilenameLength} onChange={(event) => onChange({ ...settings, maxFilenameLength: Number(event.target.value) })} />
+          </Field>
+        </div>
+      </Card>
+
+      <Card className="p-5">
+        <h2 className="text-sm font-bold text-ink dark:text-white">Character handling</h2>
+        <p className="mt-1 text-xs text-muted-dark dark:text-muted">Choose how filenames behave across operating systems and languages.</p>
+        <div className="mt-4 grid gap-3 md:grid-cols-3">
+          <Toggle label="Preserve original" description="Keep the original name as part of the result." checked={settings.preserveOriginalName} onChange={(value) => onChange({ ...settings, preserveOriginalName: value })} />
+          <Toggle label="ASCII-safe mode" description="Use characters supported almost everywhere." checked={settings.asciiSafeMode} onChange={(value) => onChange({ ...settings, asciiSafeMode: value })} />
+          <Toggle label="Turkish characters" description="Keep Turkish-specific filename characters." checked={settings.allowTurkishCharacters} onChange={(value) => onChange({ ...settings, allowTurkishCharacters: value })} />
+        </div>
+      </Card>
+    </div>
   );
 }
 
-function Toggle({ label, checked, onChange }: { label: string; checked: boolean; onChange: (value: boolean) => void }) {
+function Field({ label, icon, children }: { label: string; icon: React.ReactNode; children: React.ReactNode }) {
+  return <label className="space-y-1.5"><span className="flex items-center gap-1.5 text-[11px] font-bold text-slate-600 dark:text-slate-300">{icon}{label}</span>{children}</label>;
+}
+
+function Toggle({ label, description, checked, onChange }: { label: string; description: string; checked: boolean; onChange: (value: boolean) => void }) {
   return (
-    <div className="flex items-center justify-between rounded-lg bg-[#fafafa] px-4 py-3 dark:bg-[#141414]">
-      <span className="text-sm font-medium text-ink dark:text-white">{label}</span>
-      <Switch checked={checked} onChange={onChange} label={label} />
+    <div className="rounded-xl border border-[#d7e0ee] bg-[#f8faff] p-3.5 dark:border-lift dark:bg-[#0d1a2e]">
+      <div className="flex items-center justify-between gap-2"><span className="text-xs font-bold text-ink dark:text-white">{label}</span><Switch checked={checked} onChange={onChange} label={label} /></div>
+      <p className="mt-2 text-[10.5px] leading-4 text-muted-dark dark:text-muted">{description}</p>
     </div>
   );
 }

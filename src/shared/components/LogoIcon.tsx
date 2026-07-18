@@ -1,4 +1,13 @@
-export function LogoIcon({ size = 36 }: { size?: number }) {
+type LogoIconProps = {
+  size?: number;
+  inverted?: boolean;
+};
+
+export function LogoIcon({ size = 36, inverted = false }: LogoIconProps) {
+  const background = inverted ? "#FFFFFF" : "#2563EB";
+  const page = inverted ? "#2563EB" : "#FFFFFF";
+  const detail = inverted ? "#FFFFFF" : "#2563EB";
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -6,27 +15,22 @@ export function LogoIcon({ size = 36 }: { size?: number }) {
       height={size}
       viewBox="0 0 128 128"
       style={{ display: "block", flexShrink: 0 }}
-      aria-hidden="true"
+      role="img"
+      aria-label="Smart Download Renamer"
     >
-      <defs>
-        <radialGradient id="logo-midnight-glow" cx="50%" cy="45%" r="48%">
-          <stop offset="0%" stopColor="#14b8a6" stopOpacity="0.28" />
-          <stop offset="100%" stopColor="#14b8a6" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <rect width="128" height="128" rx="26" fill="#0C0A09" />
-      <rect width="128" height="128" rx="26" fill="url(#logo-midnight-glow)" />
-      <path d="M57 20 L71 20 L71 60 L88 60 L64 88 L40 60 L57 60 Z" fill="#2dd4bf" />
+      <rect x="4" y="4" width="120" height="120" rx="30" fill={background} />
+      <path d="M38 25h35l19 19v59H38z" fill={page} />
+      <path d="M73 25v19h19" fill="none" stroke={detail} strokeWidth="5" strokeLinejoin="round" />
       <path
-        d="M96 18 L98.5 26 L107 28.5 L98.5 31 L96 39 L93.5 31 L85 28.5 L93.5 26 Z"
-        fill="#2dd4bf"
-        opacity="0.75"
+        d="M65 43v32m-13-12 13 13 13-13"
+        fill="none"
+        stroke={detail}
+        strokeWidth="8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-      <circle cx="22" cy="36" r="2.5" fill="#2dd4bf" opacity="0.45" />
-      <circle cx="108" cy="74" r="2" fill="#2dd4bf" opacity="0.35" />
-      <circle cx="19" cy="86" r="1.5" fill="#2dd4bf" opacity="0.28" />
-      <rect x="28" y="101" width="72" height="6" rx="3" fill="#2dd4bf" opacity="0.28" />
-      <rect x="38" y="112" width="52" height="6" rx="3" fill="#2dd4bf" opacity="0.14" />
+      <path d="M50 91h30" fill="none" stroke={detail} strokeWidth="6" strokeLinecap="round" />
+      <circle cx="103" cy="27" r="8" fill="#FBBF24" stroke={background} strokeWidth="4" />
     </svg>
   );
 }

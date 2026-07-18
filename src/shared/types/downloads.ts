@@ -49,9 +49,14 @@ export type DomainRule = {
 
 export type RenameRecord = {
   id: string;
+  downloadId?: number;
   originalFilename: string;
   suggestedFilename: string;
   finalFilename?: string;
+  fullPath?: string;
+  fileSize?: number;
+  completedAt?: string;
+  exists?: boolean;
   sourceDomain?: string;
   sourceName?: string;
   documentType: DocumentType;
