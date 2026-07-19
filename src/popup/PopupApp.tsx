@@ -19,11 +19,15 @@ export function PopupApp() {
   }, [theme]);
 
   if (!settings) {
-    return <div className="h-[360px] w-[420px] bg-bg-subtle dark:bg-night" />;
+    return <div className="h-[340px] w-[420px] bg-bg-subtle dark:bg-night" />;
   }
 
   const latest = history[0];
-  const heightClass = latest ? "min-h-[600px]" : "min-h-[360px]";
+  const heightClass = !latest
+    ? "min-h-[340px]"
+    : history.length > 1
+      ? "min-h-[600px]"
+      : "min-h-[440px]";
   const openSettings = () => chrome.runtime.openOptionsPage();
   const openHistory = () => {
     const url = chrome.runtime.getURL("options.html#history");

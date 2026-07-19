@@ -96,7 +96,8 @@ const browser = await chromium.launch({
 });
 
 async function openPage(page, theme, viewport) {
-  const ctx = await browser.newContext({ viewport, deviceScaleFactor: 2 });
+  // Match the CSS pixel scale used by Chrome's actual extension popup.
+  const ctx = await browser.newContext({ viewport, deviceScaleFactor: 1 });
   const p = await ctx.newPage();
   await p.addInitScript(buildInitScript(theme));
   await p.goto(`${base}/${page}`, { waitUntil: "networkidle" });

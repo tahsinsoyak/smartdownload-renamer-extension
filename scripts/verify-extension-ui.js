@@ -7,6 +7,25 @@ const distDir = path.join(rootDir, "dist");
 const screenshotsDir = path.join(rootDir, "screenshots");
 const tempRoot = path.join(rootDir, ".tmp");
 const profileDir = path.join(tempRoot, `extension-profile-${process.pid}`);
+const now = Date.now();
+const sampleDownload = {
+  id: "ui-check-download",
+  downloadId: 101,
+  originalFilename: "cost-per-use-extension.zip",
+  suggestedFilename: "cost-per-use-extension.zip",
+  finalFilename: "cost-per-use-extension.zip",
+  fullPath: "C:\\Users\\Taylor\\Downloads\\cost-per-use-extension.zip",
+  fileSize: 1_248_311,
+  completedAt: new Date(now - 12_000).toISOString(),
+  exists: true,
+  sourceDomain: "release-assets.githubusercontent.com",
+  sourceName: "GitHub",
+  documentType: "archive",
+  fileExtension: "zip",
+  createdAt: new Date(now - 15_000).toISOString(),
+  status: "skipped",
+  reason: "Filename is already descriptive",
+};
 
 if (!existsSync(path.join(distDir, "manifest.json"))) {
   throw new Error("Build the extension before running this check.");
@@ -41,7 +60,10 @@ try {
   await popup.setViewportSize({ width: 420, height: 600 });
 
   await popup.goto(`chrome-extension://${extensionId}/popup.html`, { waitUntil: "networkidle" });
-  await popup.evaluate(() => chrome.storage.local.set({ theme: "dark" }));
+  await popup.evaluate(
+    (record) => chrome.storage.local.set({ theme: "dark", renameHistory: [record] }),
+    sampleDownload,
+  );
   await popup.reload({ waitUntil: "networkidle" });
   await popup.evaluate(() => document.fonts.ready);
 
@@ -80,7 +102,12 @@ try {
   if (!popupMetrics.bodyFontLoaded || !popupMetrics.displayFontLoaded || popupMetrics.bodyFont !== popupMetrics.rootFont) {
     throw new Error("Bundled UI font did not load in the extension context.");
   }
-  if (popupMetrics.width !== 420 || popupMetrics.theme !== "dark") {
+  if (
+    popupMetrics.width !== 420
+    || popupMetrics.height < 420
+    || popupMetrics.height > 500
+    || popupMetrics.theme !== "dark"
+  ) {
     throw new Error("Popup dimensions or stored dark theme did not match the release UI.");
   }
   if (mobileMetrics.scrollWidth > mobileMetrics.width) {

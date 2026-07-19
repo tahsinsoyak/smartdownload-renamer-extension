@@ -14,9 +14,9 @@ export function NamingPreview({ settings, domainRules }: { settings: NamingSetti
   return (
     <div className="rounded-xl border border-[#ccd9ee] bg-white p-4 shadow-card dark:border-lift dark:bg-panel">
       <div>
-        <p className="text-sm font-semibold text-ink dark:text-white">Ready for your next download</p>
-        <p className="mt-1 text-[10.5px] text-slate-500 dark:text-slate-400">New downloads will be renamed automatically and shown here with their saved location.</p>
-        <p className="mb-2 mt-4 text-[9px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">Example</p>
+        <p className="text-[15px] font-semibold text-ink dark:text-white">Ready for your next download</p>
+        <p className="mt-1 text-[12px] leading-relaxed text-slate-500 dark:text-slate-400">New downloads will be renamed automatically and shown here with their saved location.</p>
+        <p className="mb-2 mt-4 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">Example</p>
         <div className="flex items-center gap-3 rounded-lg border border-[#d8e1f0] bg-[#f2f6ff] px-3 py-3 dark:border-lift dark:bg-[#0d1a2e]">
           <span className="filename-line font-mono text-sm text-muted-dark dark:text-muted">document.pdf</span>
           <ArrowRight size={14} className="shrink-0 text-blue-500" />
