@@ -165,7 +165,7 @@ export const en = {
     dataDescription: "Clears all local settings, domain rules, theme, language, and rename history from this browser. This cannot be undone.",
     keywordTitle: "Document type keywords",
     keywordDescription: "Read-only keyword rules used to classify downloaded files by type.",
-    version: "Version 0.1.0 · Free · Local-first · No backend",
+    version: "Version 1.0.0 · Free · Local-first · No backend",
   },
   support: {
     title: "Enjoying Smart Download Renamer?",

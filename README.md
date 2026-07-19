@@ -2,7 +2,7 @@
 
 **Automatically rename messy downloads into clean, searchable filenames — 100% local, no account, no backend.**
 
-[![Version](https://img.shields.io/badge/version-0.1.0-teal)](https://github.com/tahsinsoyak/smartdownload-renamer-extension/releases)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/tahsinsoyak/smartdownload-renamer-extension/releases)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Manifest%20V3-blue)](https://developer.chrome.com/docs/extensions/mv3/)
 [![Support](https://img.shields.io/badge/Support-Patreon-ff424d)](https://www.patreon.com/tahsinsoyak)
@@ -102,7 +102,7 @@ npm run test      # Unit tests (Vitest)
 npm run store:generate # Capture and generate the complete Chrome Web Store asset pack
 npm run store:validate # Validate Store image dimensions, format, and opacity
 npm run release:check # Full UI, locale, privacy, and package-readiness checks
-npm run zip       # Build + package → release/smart-download-renamer.zip
+npm run zip       # Build + package → release/smart-download-renamer-v<version>.zip
 npm run icons     # Regenerate PNG icons from public/icon.svg
 ```
 

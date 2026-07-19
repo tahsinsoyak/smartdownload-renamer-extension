@@ -166,7 +166,7 @@ export const tr = createLocale({
     dataDescription: "Bu tarayıcıdaki tüm yerel ayarları, alan adı kurallarını, temayı, dili ve yeniden adlandırma geçmişini temizler. Bu işlem geri alınamaz.",
     keywordTitle: "Belge türü anahtar sözcükleri",
     keywordDescription: "İndirilen dosyaları türüne göre sınıflandırmak için kullanılan salt okunur anahtar sözcük kuralları.",
-    version: "Sürüm 0.1.0 · Ücretsiz · Yerel öncelikli · Sunucusuz",
+    version: "Sürüm 1.0.0 · Ücretsiz · Yerel öncelikli · Sunucusuz",
   },
   support: {
     title: "Smart Download Renamer'ı beğendiniz mi?",
