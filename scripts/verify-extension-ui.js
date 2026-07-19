@@ -32,8 +32,13 @@ try {
   popup.on("console", (message) => {
     if (message.type() === "error") pageErrors.push(message.text());
   });
-  popup.on("requestfailed", (request) => pageErrors.push(`${request.url()}: ${request.failure()?.errorText}`));
-  await popup.setViewportSize({ width: 440, height: 640 });
+  popup.on("requestfailed", (request) => {
+    const errorText = request.failure()?.errorText;
+    if (errorText !== "net::ERR_ABORTED") {
+      pageErrors.push(`${request.url()}: ${errorText}`);
+    }
+  });
+  await popup.setViewportSize({ width: 420, height: 600 });
 
   await popup.goto(`chrome-extension://${extensionId}/popup.html`, { waitUntil: "networkidle" });
   await popup.evaluate(() => chrome.storage.local.set({ theme: "dark" }));
@@ -46,7 +51,8 @@ try {
     theme: document.documentElement.classList.contains("dark") ? "dark" : "light",
     rootFont: getComputedStyle(document.documentElement).fontFamily,
     bodyFont: getComputedStyle(document.body).fontFamily,
-    fontLoaded: document.fonts.check('14px "Plus Jakarta Sans Variable"'),
+    bodyFontLoaded: document.fonts.check('14px "Inter Variable"'),
+    displayFontLoaded: document.fonts.check('600 14px "Poppins"'),
     stylesheets: [...document.styleSheets].map((sheet) => sheet.href),
   }));
 
@@ -71,10 +77,10 @@ try {
   }));
   await mobileOptions.screenshot({ path: path.join(screenshotsDir, "options-extension-mobile-dark.png"), fullPage: true });
 
-  if (!popupMetrics.fontLoaded || popupMetrics.bodyFont !== popupMetrics.rootFont) {
+  if (!popupMetrics.bodyFontLoaded || !popupMetrics.displayFontLoaded || popupMetrics.bodyFont !== popupMetrics.rootFont) {
     throw new Error("Bundled UI font did not load in the extension context.");
   }
-  if (popupMetrics.width !== 440 || popupMetrics.theme !== "dark") {
+  if (popupMetrics.width !== 420 || popupMetrics.theme !== "dark") {
     throw new Error("Popup dimensions or stored dark theme did not match the release UI.");
   }
   if (mobileMetrics.scrollWidth > mobileMetrics.width) {

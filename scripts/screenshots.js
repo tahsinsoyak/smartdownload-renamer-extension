@@ -114,13 +114,13 @@ async function clickTab(p, label) {
 }
 
 // ── 1. Popup — light ─────────────────────────────────────────────────────────
-{ const { p, ctx } = await openPage("popup.html", "light", { width:440, height:640 });
-  await p.screenshot({ path:`${outDir}/popup-light.png`, clip:{x:0,y:0,width:440,height:640} });
+{ const { p, ctx } = await openPage("popup.html", "light", { width:420, height:600 });
+  await p.screenshot({ path:`${outDir}/popup-light.png`, clip:{x:0,y:0,width:420,height:600} });
   console.log("✓ popup-light.png"); await ctx.close(); }
 
 // ── 2. Popup — dark ──────────────────────────────────────────────────────────
-{ const { p, ctx } = await openPage("popup.html", "dark", { width:440, height:640 });
-  await p.screenshot({ path:`${outDir}/popup-dark.png`, clip:{x:0,y:0,width:440,height:640} });
+{ const { p, ctx } = await openPage("popup.html", "dark", { width:420, height:600 });
+  await p.screenshot({ path:`${outDir}/popup-dark.png`, clip:{x:0,y:0,width:420,height:600} });
   console.log("✓ popup-dark.png"); await ctx.close(); }
 
 // ── 3. Options — General tab ──────────────────────────────────────────────────

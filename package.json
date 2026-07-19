@@ -14,7 +14,8 @@
     "zip": "npm run build && powershell -NoProfile -ExecutionPolicy Bypass -File scripts/zip-extension.ps1"
   },
   "dependencies": {
-    "@fontsource-variable/plus-jakarta-sans": "^5.2.8",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource/poppins": "^5.3.0",
     "lucide-react": "^0.468.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
