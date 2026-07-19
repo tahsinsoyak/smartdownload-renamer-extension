@@ -1,5 +1,7 @@
-import { OPTIONS_NAVIGATION, type OptionsTab } from "../navigation";
+import { Heart } from "lucide-react";
+import { SUPPORT_URL } from "../../shared/constants/links";
 import { useI18n } from "../../shared/locales/useI18n";
+import { OPTIONS_NAVIGATION, type OptionsTab } from "../navigation";
 
 type OptionsNavigationProps = {
   activeTab: OptionsTab;
@@ -56,6 +58,18 @@ export function OptionsNavigation({ activeTab, historyCount, onSelect }: Options
                 </button>
               );
             })}
+          </div>
+          <div className="mt-2 border-t border-[#e3e9f2] pt-2 dark:border-[#263854]">
+            <a
+              href={SUPPORT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left text-[13px] font-semibold text-slate-600 transition-colors duration-200 hover:bg-rose-50 hover:text-rose-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 dark:text-slate-400 dark:hover:bg-rose-950/25 dark:hover:text-rose-300"
+              aria-label={t("accessibility.supportPatreon")}
+            >
+              <Heart size={16} className="shrink-0" aria-hidden="true" />
+              <span>{t("navigation.support")}</span>
+            </a>
           </div>
         </nav>
       </aside>

@@ -28,7 +28,8 @@
 - Paste the English and Turkish listing copy from `listings`.
 - Select Productivity as the primary category.
 - Add the homepage, support, and privacy-policy URLs from `listing.md`.
-- Upload the 128 × 128 icon, at least one 1280 × 800 screenshot, and the 440 × 280 small promotional tile.
+- Upload `store-assets/icon-128.png`, the five numbered 1280 × 800 screenshots in order, and `store-assets/promo-tile-small.png`.
+- Upload `store-assets/promo-tile-marquee.png` when the dashboard offers the optional marquee placement.
 - Paste permission explanations from `permission-justifications.md`.
 - Complete data disclosures from `privacy-practices.md`.
 - Select **No remote code**.

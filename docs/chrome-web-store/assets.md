@@ -1,27 +1,41 @@
-# Store asset requirements
+# Store asset workflow
 
-The current repository screenshots are product-development references. Before Store submission, create a separate `store-assets` pack that satisfies Chrome's dimensions and quality requirements.
+The Store asset pack is generated from the real production extension screenshots. The presentation frames use the same cobalt palette, typography, icon, and product claims as the shipped UI.
 
-## Required
+## Generate everything
 
-- Extension icon: 128 × 128 PNG inside the extension package.
-- At least one screenshot: 1280 × 800 PNG or JPEG. Up to five screenshots can be uploaded.
-- Small promotional tile: 440 × 280 PNG or JPEG.
+```powershell
+npm run store:generate
+```
 
-## Optional but recommended
+This command builds the extension, captures deterministic English and Turkish product screenshots, and creates the five Store screenshots, two promotional tiles, and icon handoff files in `store-assets/`.
 
-- Additional screenshots, up to five total.
-- Marquee promotional tile: 1400 × 560 PNG or JPEG.
-- Short YouTube demonstration video.
+## Generate one asset group
 
-## Recommended screenshot story
+```powershell
+npm run store:screenshots
+npm run store:promo
+```
 
-1. Latest download with the new filename and original filename.
-2. Saved folder, source, size, type, Open file, and Show in folder.
-3. Filename template and live preview.
-4. Website-specific naming rules.
-5. Searchable local history and English/Turkish interface selection.
+Use these commands when the source UI screenshots or promotional artwork changed independently.
 
-Use only non-sensitive sample filenames, domains, and paths. Do not show personal browser profiles, real download URLs, account details, or private local folders.
+## Validate every asset
+
+```powershell
+npm run store:validate
+```
+
+Validation checks file presence, PNG format, exact dimensions, and opacity requirements. `npm run release:check` also runs this validation.
+
+## Store upload set
+
+- `icon-128.png` — 128 × 128 Store icon.
+- `screenshot-01-latest-download.png` through `screenshot-05-local-history.png` — five 1280 × 800 screenshots.
+- `promo-tile-small.png` — required 440 × 280 promotional tile.
+- `promo-tile-marquee.png` — optional 1400 × 560 marquee.
+
+`icon-master-512.png` and `icon-construction.png` are brand handoff files, not Store upload requirements.
+
+Only deterministic sample filenames, domains, and folders appear in the screenshots. No browser profile, account, private URL, or real local path is shown.
 
 Official image guidance: `https://developer.chrome.com/docs/webstore/images`

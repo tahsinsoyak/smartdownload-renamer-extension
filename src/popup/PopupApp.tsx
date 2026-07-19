@@ -5,7 +5,6 @@ import { LatestDownloadCard } from "./components/LatestDownloadCard";
 import { NamingPreview } from "./components/NamingPreview";
 import { PopupFooter } from "./components/PopupFooter";
 import { PopupHeader } from "./components/PopupHeader";
-import { PopupUtilityBar } from "./components/PopupUtilityBar";
 import { RecentRenames } from "./components/RecentRenames";
 
 export function PopupApp() {
@@ -52,10 +51,10 @@ export function PopupApp() {
       <PopupHeader
         enabled={settings.enabled}
         theme={theme}
+        onOpenSettings={openSettings}
         onEnabledChange={(enabled) => updateSettings({ ...settings, enabled })}
         onThemeToggle={() => setTheme(theme === "dark" ? "light" : "dark")}
       />
-      <PopupUtilityBar onOpenSettings={openSettings} />
 
       <main className="flex-1 space-y-2.5 px-3 py-3">
         {latest ? (

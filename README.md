@@ -99,6 +99,8 @@ Download `smart-download-renamer.zip` from [Releases](https://github.com/tahsins
 npm run dev       # Vite dev server for popup and options UI
 npm run build     # Production build → dist/
 npm run test      # Unit tests (Vitest)
+npm run store:generate # Capture and generate the complete Chrome Web Store asset pack
+npm run store:validate # Validate Store image dimensions, format, and opacity
 npm run release:check # Full UI, locale, privacy, and package-readiness checks
 npm run zip       # Build + package → release/smart-download-renamer.zip
 npm run icons     # Regenerate PNG icons from public/icon.svg

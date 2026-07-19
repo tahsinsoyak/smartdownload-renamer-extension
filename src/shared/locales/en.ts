@@ -87,6 +87,7 @@ export const en = {
     historyDescription: "Find renamed downloads and their saved locations.",
     about: "About",
     aboutDescription: "Permissions, privacy details, and extension data.",
+    support: "Support",
   },
   general: {
     smartRenaming: "Smart renaming",

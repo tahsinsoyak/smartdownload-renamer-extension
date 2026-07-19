@@ -112,11 +112,11 @@ try {
     width: document.body.getBoundingClientRect().width,
     height: document.body.getBoundingClientRect().height,
     language: document.documentElement.lang,
-    hasSettings: document.body.innerText.includes("Ayarlar"),
+    hasSettings: document.querySelector('[data-testid="popup-settings-button"]') !== null,
     hasSupport: document.body.innerText.includes("Bu uzantıyı destekle"),
   }));
   const turkishNavigation = {
-    settingsButtons: await popup.locator('nav[aria-label] button').count(),
+    settingsButtons: await popup.getByRole("button", { name: "Ayarları aç" }).count(),
     footerButtons: await popup.locator("footer button").count(),
     support: await popup.locator('footer a[href*="patreon.com"]').evaluate((element) => {
       const bounds = element.getBoundingClientRect();
@@ -143,6 +143,7 @@ try {
       .locator('footer a[href*="patreon.com"]')
       .isVisible();
   }
+  const desktopSupportLinks = await options.locator('a[href*="patreon.com"]').count();
   await options.goto(`chrome-extension://${extensionId}/options.html#general`, { waitUntil: "networkidle" });
   await options.reload({ waitUntil: "networkidle" });
   const turkishOptions = await options.evaluate(() => ({
@@ -205,6 +206,9 @@ try {
   if (Object.values(supportByTab).some((visible) => !visible)) {
     throw new Error("Support footer is not visible on every options page.");
   }
+  if (desktopSupportLinks !== 2) {
+    throw new Error("Options page must expose Support in both the sidebar and the footer.");
+  }
   if (mobileMetrics.scrollWidth > mobileMetrics.width) {
     throw new Error("Options page has horizontal overflow on a 375px viewport.");
   }
@@ -220,6 +224,7 @@ try {
     turkishNavigation,
     turkishOptions,
     supportByTab,
+    desktopSupportLinks,
     mobileOptions: mobileMetrics,
     pageErrors,
   }, null, 2));

@@ -8,6 +8,7 @@ Use these files when creating the Chrome Web Store item:
 - [Privacy practices answers](privacy-practices.md)
 - [Permission justifications](permission-justifications.md)
 - [Store asset requirements](assets.md)
+- [Icon system and export guidance](icon-guidelines.md)
 - [Submission checklist](submission-checklist.md)
 - [Privacy policy](../privacy-policy.md)
 - [Support information](../support.md)

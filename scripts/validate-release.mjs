@@ -15,6 +15,7 @@ const requiredDocs = [
   "docs/chrome-web-store/privacy-practices.md",
   "docs/chrome-web-store/permission-justifications.md",
   "docs/chrome-web-store/assets.md",
+  "docs/chrome-web-store/icon-guidelines.md",
   "docs/chrome-web-store/submission-checklist.md",
 ];
 

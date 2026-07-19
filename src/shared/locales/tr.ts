@@ -88,6 +88,7 @@ export const tr = createLocale({
     historyDescription: "Yeniden adlandırılan dosyaları ve kayıt konumlarını bulun.",
     about: "Hakkında",
     aboutDescription: "İzinler, gizlilik ayrıntıları ve uzantı verileri.",
+    support: "Destek",
   },
   general: {
     smartRenaming: "Akıllı yeniden adlandırma",

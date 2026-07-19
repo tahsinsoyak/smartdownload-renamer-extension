@@ -129,6 +129,11 @@ async function clickTab(p, label) {
   await p.screenshot({ path:`${outDir}/popup-light-tr.png`, clip:{x:0,y:0,width:420,height:600} });
   console.log("✓ popup-light-tr.png"); await ctx.close(); }
 
+// Popup — Turkish, dark
+{ const { p, ctx } = await openPage("popup.html", "dark", { width:420, height:600 }, "tr");
+  await p.screenshot({ path:`${outDir}/popup-dark-tr.png`, clip:{x:0,y:0,width:420,height:600} });
+  console.log("✓ popup-dark-tr.png"); await ctx.close(); }
+
 // ── 3. Options — General tab ──────────────────────────────────────────────────
 { const { p, ctx } = await openPage("options.html", "light", { width:1200, height:820 });
   await p.screenshot({ path:`${outDir}/options-general.png` });
