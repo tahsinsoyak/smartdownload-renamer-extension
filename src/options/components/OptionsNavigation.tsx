@@ -1,5 +1,3 @@
-import { Heart } from "lucide-react";
-import { SUPPORT_URL } from "../../shared/constants/links";
 import { OPTIONS_NAVIGATION, type OptionsTab } from "../navigation";
 
 type OptionsNavigationProps = {
@@ -56,17 +54,6 @@ export function OptionsNavigation({ activeTab, historyCount, onSelect }: Options
                 </button>
               );
             })}
-          </div>
-          <div className="mt-3 border-t border-border-light pt-2 dark:border-[#263854]">
-            <a
-              href={SUPPORT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-semibold text-muted-dark transition-colors hover:bg-rose-50 hover:text-rose-600 dark:text-slate-400 dark:hover:bg-rose-950/30 dark:hover:text-rose-300"
-            >
-              <Heart size={16} className="shrink-0 text-rose-400" />
-              Support
-            </a>
           </div>
         </nav>
       </aside>

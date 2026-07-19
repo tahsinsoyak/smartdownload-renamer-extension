@@ -31,7 +31,7 @@ export function RecentRenames({ records, onViewAll }: RecentRenamesProps) {
       </div>
 
       <div className="divide-y divide-[#dbe3f0] dark:divide-lift">
-        {records.slice(0, 2).map((record) => (
+        {records.slice(0, 1).map((record) => (
           <div key={record.id} className="grid min-h-[52px] animate-rise grid-cols-[7px_minmax(0,1fr)_14px] items-center gap-2.5">
             <span className={`h-2 w-2 rounded-full ${statusColors[record.status]}`} aria-label={record.status} />
             <div className="min-w-0">

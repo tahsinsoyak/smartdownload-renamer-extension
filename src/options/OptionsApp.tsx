@@ -7,6 +7,7 @@ import { NamingTemplateSettings } from "./components/NamingTemplateSettings";
 import { OptionsHeader } from "./components/OptionsHeader";
 import { OptionsNavigation } from "./components/OptionsNavigation";
 import { OptionsPageHeader } from "./components/OptionsPageHeader";
+import { OptionsSupportFooter } from "./components/OptionsSupportFooter";
 import { RecentHistory } from "./components/RecentHistory";
 import { getNavigationItem, OPTIONS_NAVIGATION, type OptionsTab } from "./navigation";
 
@@ -60,7 +61,7 @@ export function OptionsApp() {
   const page = getNavigationItem(tab);
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#edf3ff_0px,#f3f6fb_280px)] text-ink dark:bg-[linear-gradient(180deg,#0b1b33_0px,#07111f_320px)] dark:text-white">
+    <div className="flex min-h-screen flex-col bg-[linear-gradient(180deg,#edf3ff_0px,#f3f6fb_280px)] text-ink dark:bg-[linear-gradient(180deg,#0b1b33_0px,#07111f_320px)] dark:text-white">
       <OptionsHeader
         theme={theme}
         saved={saved}
@@ -68,7 +69,7 @@ export function OptionsApp() {
         onSave={() => saveSettings()}
       />
 
-      <div className="mx-auto max-w-6xl px-4 py-6 md:px-6 md:py-8">
+      <div className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 md:px-6 md:py-8">
         <div className="md:flex md:gap-7">
           <OptionsNavigation activeTab={tab} historyCount={history.length} onSelect={selectTab} />
 
@@ -84,6 +85,7 @@ export function OptionsApp() {
           </main>
         </div>
       </div>
+      <OptionsSupportFooter />
     </div>
   );
 }

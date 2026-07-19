@@ -77,6 +77,12 @@ try {
     displayFontLoaded: document.fonts.check('600 14px "Poppins"'),
     stylesheets: [...document.styleSheets].map((sheet) => sheet.href),
   }));
+  const popupNavigation = {
+    settingsButtons: await popup.getByRole("button", { name: "Settings" }).count(),
+    historyButtons: await popup.getByRole("button", { name: "History" }).count(),
+    supportWidth: await popup.getByRole("link", { name: "Support Smart Download Renamer on Patreon" })
+      .evaluate((element) => element.getBoundingClientRect().width),
+  };
 
   await popup.screenshot({
     path: path.join(screenshotsDir, "popup-extension-dark.png"),
@@ -87,6 +93,14 @@ try {
   await options.setViewportSize({ width: 1200, height: 820 });
   await options.goto(`chrome-extension://${extensionId}/options.html`, { waitUntil: "networkidle" });
   await options.evaluate(() => document.fonts.ready);
+  const supportByTab = {};
+  for (const tab of ["general", "template", "domains", "history", "about"]) {
+    await options.goto(`chrome-extension://${extensionId}/options.html#${tab}`, { waitUntil: "networkidle" });
+    supportByTab[tab] = await options
+      .getByRole("link", { name: "Support Smart Download Renamer on Patreon" })
+      .isVisible();
+  }
+  await options.goto(`chrome-extension://${extensionId}/options.html#general`, { waitUntil: "networkidle" });
   await options.screenshot({ path: path.join(screenshotsDir, "options-extension-dark.png"), fullPage: true });
 
   const mobileOptions = await context.newPage();
@@ -110,6 +124,16 @@ try {
   ) {
     throw new Error("Popup dimensions or stored dark theme did not match the release UI.");
   }
+  if (
+    popupNavigation.settingsButtons !== 1
+    || popupNavigation.historyButtons !== 0
+    || popupNavigation.supportWidth !== popupMetrics.width
+  ) {
+    throw new Error("Popup footer does not have one Settings action and a full-width Support action.");
+  }
+  if (Object.values(supportByTab).some((visible) => !visible)) {
+    throw new Error("Support footer is not visible on every options page.");
+  }
   if (mobileMetrics.scrollWidth > mobileMetrics.width) {
     throw new Error("Options page has horizontal overflow on a 375px viewport.");
   }
@@ -117,7 +141,14 @@ try {
     throw new Error(`Extension page errors: ${pageErrors.join(" | ")}`);
   }
 
-  console.log(JSON.stringify({ extensionId, popup: popupMetrics, mobileOptions: mobileMetrics, pageErrors }, null, 2));
+  console.log(JSON.stringify({
+    extensionId,
+    popup: popupMetrics,
+    popupNavigation,
+    supportByTab,
+    mobileOptions: mobileMetrics,
+    pageErrors,
+  }, null, 2));
 } finally {
   await context.close();
   const resolvedProfile = path.resolve(profileDir);

@@ -1,37 +1,12 @@
-import { Heart, LockKeyhole, ShieldAlert, Trash2 } from "lucide-react";
+import { LockKeyhole, ShieldAlert, Trash2 } from "lucide-react";
 import { Button } from "../../shared/components/Button";
 import { Card } from "../../shared/components/Card";
 import { COPY } from "../../shared/constants/copy";
 import { DOCUMENT_TYPE_KEYWORDS } from "../../shared/constants/documentTypes";
-import { SUPPORT_URL } from "../../shared/constants/links";
 
 export function AboutTab({ onClearAll }: { onClearAll: () => void }) {
   return (
     <div className="space-y-3">
-      {/* Support */}
-      <Card className="overflow-hidden">
-        <div className="flex items-center justify-between gap-4 bg-gradient-to-r from-[#ff424d]/5 via-transparent to-transparent p-5">
-          <div>
-            <h2 className="flex items-center gap-2 text-sm font-semibold text-ink dark:text-white">
-              <Heart size={14} className="text-rose-500" />
-              Support this extension
-            </h2>
-            <p className="mt-1 text-sm text-muted-dark dark:text-muted">
-              Built and maintained for free. If it saves you time, a small contribution keeps it going.
-            </p>
-          </div>
-          <a
-            href={SUPPORT_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex shrink-0 items-center gap-2 rounded-lg bg-[#ff424d] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90 active:opacity-80"
-          >
-            <Heart size={13} />
-            Patreon
-          </a>
-        </div>
-      </Card>
-
       {/* Privacy */}
       <Card className="p-5">
         <h2 className="flex items-center gap-2 text-sm font-semibold text-ink dark:text-white">

@@ -64,7 +64,7 @@ export function PopupApp() {
         <RecentRenames records={history.slice(1)} onViewAll={openHistory} />
       </main>
 
-      <PopupFooter onOpenSettings={openSettings} onOpenHistory={openHistory} />
+      <PopupFooter onOpenSettings={openSettings} />
     </div>
   );
 }
