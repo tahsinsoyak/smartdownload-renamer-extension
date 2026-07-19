@@ -78,10 +78,20 @@ try {
     stylesheets: [...document.styleSheets].map((sheet) => sheet.href),
   }));
   const popupNavigation = {
-    settingsButtons: await popup.getByRole("button", { name: "Settings" }).count(),
+    settingsButtons: await popup.getByRole("button", { name: "Open settings" }).count(),
     historyButtons: await popup.getByRole("button", { name: "History" }).count(),
-    supportWidth: await popup.getByRole("link", { name: "Support Smart Download Renamer on Patreon" })
-      .evaluate((element) => element.getBoundingClientRect().width),
+    support: await popup.getByRole("link", { name: "Support Smart Download Renamer on Patreon" })
+      .evaluate((element) => {
+        const bounds = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        const footerStyle = getComputedStyle(element.closest("footer"));
+        return {
+          width: bounds.width,
+          borderRadius: Number.parseFloat(style.borderRadius),
+          background: style.backgroundColor,
+          footerBackground: footerStyle.backgroundColor,
+        };
+      }),
   };
 
   await popup.screenshot({
@@ -127,9 +137,12 @@ try {
   if (
     popupNavigation.settingsButtons !== 1
     || popupNavigation.historyButtons !== 0
-    || popupNavigation.supportWidth !== popupMetrics.width
+    || popupNavigation.support.width >= popupMetrics.width
+    || popupNavigation.support.width < popupMetrics.width - 32
+    || popupNavigation.support.borderRadius < 12
+    || popupNavigation.support.background === popupNavigation.support.footerBackground
   ) {
-    throw new Error("Popup footer does not have one Settings action and a full-width Support action.");
+    throw new Error("Popup does not have a top Settings action and a calm rounded Support footer.");
   }
   if (Object.values(supportByTab).some((visible) => !visible)) {
     throw new Error("Support footer is not visible on every options page.");
