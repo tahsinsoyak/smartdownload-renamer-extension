@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Akıllı İndirme Adlandırıcı",
+    "description": "Uzantı adı"
+  },
+  "extDescription": {
+    "message": "Karmaşık indirme adlarını otomatik olarak düzenli ve aranabilir dosya adlarına dönüştürün.",
+    "description": "Chrome tarafından gösterilen uzantı açıklaması"
+  }
+}

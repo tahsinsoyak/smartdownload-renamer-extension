@@ -61,7 +61,7 @@ try {
 
   await popup.goto(`chrome-extension://${extensionId}/popup.html`, { waitUntil: "networkidle" });
   await popup.evaluate(
-    (record) => chrome.storage.local.set({ theme: "dark", renameHistory: [record] }),
+    (record) => chrome.storage.local.set({ theme: "dark", settings: { language: "en" }, renameHistory: [record] }),
     sampleDownload,
   );
   await popup.reload({ waitUntil: "networkidle" });
@@ -101,17 +101,56 @@ try {
 
   const options = await context.newPage();
   await options.setViewportSize({ width: 1200, height: 820 });
-  await options.goto(`chrome-extension://${extensionId}/options.html`, { waitUntil: "networkidle" });
+  await options.goto(`chrome-extension://${extensionId}/options.html#general`, { waitUntil: "networkidle" });
   await options.evaluate(() => document.fonts.ready);
+  await options.screenshot({ path: path.join(screenshotsDir, "options-extension-dark.png"), fullPage: true });
+
+  await popup.evaluate(() => chrome.storage.local.set({ settings: { language: "tr" } }));
+  await popup.reload({ waitUntil: "networkidle" });
+  await popup.evaluate(() => document.fonts.ready);
+  const turkishPopup = await popup.evaluate(() => ({
+    width: document.body.getBoundingClientRect().width,
+    height: document.body.getBoundingClientRect().height,
+    language: document.documentElement.lang,
+    hasSettings: document.body.innerText.includes("Ayarlar"),
+    hasSupport: document.body.innerText.includes("Bu uzantıyı destekle"),
+  }));
+  const turkishNavigation = {
+    settingsButtons: await popup.locator('nav[aria-label] button').count(),
+    footerButtons: await popup.locator("footer button").count(),
+    support: await popup.locator('footer a[href*="patreon.com"]').evaluate((element) => {
+      const bounds = element.getBoundingClientRect();
+      const style = getComputedStyle(element);
+      const footerStyle = getComputedStyle(element.closest("footer"));
+      return {
+        width: bounds.width,
+        borderRadius: Number.parseFloat(style.borderRadius),
+        background: style.backgroundColor,
+        footerBackground: footerStyle.backgroundColor,
+      };
+    }),
+  };
+  await popup.screenshot({
+    path: path.join(screenshotsDir, "popup-extension-dark-tr.png"),
+    clip: { x: 0, y: 0, width: turkishPopup.width, height: turkishPopup.height },
+  });
+
   const supportByTab = {};
   for (const tab of ["general", "template", "domains", "history", "about"]) {
     await options.goto(`chrome-extension://${extensionId}/options.html#${tab}`, { waitUntil: "networkidle" });
+    await options.reload({ waitUntil: "networkidle" });
     supportByTab[tab] = await options
-      .getByRole("link", { name: "Support Smart Download Renamer on Patreon" })
+      .locator('footer a[href*="patreon.com"]')
       .isVisible();
   }
   await options.goto(`chrome-extension://${extensionId}/options.html#general`, { waitUntil: "networkidle" });
-  await options.screenshot({ path: path.join(screenshotsDir, "options-extension-dark.png"), fullPage: true });
+  await options.reload({ waitUntil: "networkidle" });
+  const turkishOptions = await options.evaluate(() => ({
+    language: document.documentElement.lang,
+    hasLanguageLabel: document.body.innerText.includes("Arayüz dili"),
+    hasTurkishOption: document.body.innerText.includes("Türkçe"),
+  }));
+  await options.screenshot({ path: path.join(screenshotsDir, "options-extension-dark-tr.png"), fullPage: true });
 
   const mobileOptions = await context.newPage();
   await mobileOptions.setViewportSize({ width: 375, height: 820 });
@@ -121,7 +160,7 @@ try {
     scrollWidth: document.documentElement.scrollWidth,
     theme: document.documentElement.classList.contains("dark") ? "dark" : "light",
   }));
-  await mobileOptions.screenshot({ path: path.join(screenshotsDir, "options-extension-mobile-dark.png"), fullPage: true });
+  await mobileOptions.screenshot({ path: path.join(screenshotsDir, "options-extension-mobile-dark-tr.png"), fullPage: true });
 
   if (!popupMetrics.bodyFontLoaded || !popupMetrics.displayFontLoaded || popupMetrics.bodyFont !== popupMetrics.rootFont) {
     throw new Error("Bundled UI font did not load in the extension context.");
@@ -144,6 +183,25 @@ try {
   ) {
     throw new Error("Popup does not have a top Settings action and a calm rounded Support footer.");
   }
+  if (
+    turkishPopup.language !== "tr"
+    || !turkishPopup.hasSettings
+    || !turkishPopup.hasSupport
+    || turkishNavigation.settingsButtons !== 1
+    || turkishNavigation.footerButtons !== 0
+    || turkishNavigation.support.width >= turkishPopup.width
+    || turkishNavigation.support.borderRadius < 12
+    || turkishNavigation.support.background === turkishNavigation.support.footerBackground
+  ) {
+    throw new Error("Turkish popup localization or navigation layout did not match the release UI.");
+  }
+  if (
+    turkishOptions.language !== "tr"
+    || !turkishOptions.hasLanguageLabel
+    || !turkishOptions.hasTurkishOption
+  ) {
+    throw new Error("Turkish options localization did not load correctly.");
+  }
   if (Object.values(supportByTab).some((visible) => !visible)) {
     throw new Error("Support footer is not visible on every options page.");
   }
@@ -158,6 +216,9 @@ try {
     extensionId,
     popup: popupMetrics,
     popupNavigation,
+    turkishPopup,
+    turkishNavigation,
+    turkishOptions,
     supportByTab,
     mobileOptions: mobileMetrics,
     pageErrors,

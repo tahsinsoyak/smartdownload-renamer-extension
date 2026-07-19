@@ -2,9 +2,10 @@ import { ArrowRight, FileCheck2, FileText, ShieldCheck, Sparkles, WandSparkles }
 import { Card } from "../../shared/components/Card";
 import { Select } from "../../shared/components/Select";
 import { Switch } from "../../shared/components/Switch";
-import { COPY } from "../../shared/constants/copy";
 import { buildFilename } from "../../shared/lib/buildFilename";
+import { useI18n } from "../../shared/locales/useI18n";
 import type { DomainRule, NamingSettings, RenameRecord } from "../../shared/types/downloads";
+import { LanguageSettings } from "./LanguageSettings";
 
 type Props = {
   settings: NamingSettings;
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export function GeneralTab({ settings, domainRules, history, onChange }: Props) {
+  const { t } = useI18n();
   const preview = buildFilename({
     originalFilename: "invoice(3).pdf",
     url: "https://www.amazon.com.tr/order/invoice",
@@ -38,9 +40,9 @@ export function GeneralTab({ settings, domainRules, history, onChange }: Props) 
               </span>
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="text-base font-bold tracking-[-0.02em] text-ink dark:text-white">Smart renaming</h3>
+                  <h3 className="text-base font-bold tracking-[-0.02em] text-ink dark:text-white">{t("general.smartRenaming")}</h3>
                   <span className={`rounded-full px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.08em] ${settings.enabled ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300" : "bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-300"}`}>
-                    {settings.enabled ? "Active" : "Paused"}
+                    {settings.enabled ? t("statuses.active") : t("statuses.paused")}
                   </span>
                 </div>
               </div>
@@ -48,11 +50,11 @@ export function GeneralTab({ settings, domainRules, history, onChange }: Props) 
             <Switch
               checked={settings.enabled}
               onChange={(enabled) => onChange({ ...settings, enabled })}
-              label="Enable smart renaming"
+              label={t("general.enableRenaming")}
             />
             </div>
             <p className="mt-3 max-w-2xl text-[13px] leading-5 text-muted-dark sm:pl-16 dark:text-slate-400">
-              {settings.enabled ? COPY.autoOn : COPY.autoOff}. New filenames are prepared automatically when downloads begin.
+              {settings.enabled ? t("general.enabledDescription") : t("general.disabledDescription")}
             </p>
           </div>
         </div>
@@ -65,16 +67,16 @@ export function GeneralTab({ settings, domainRules, history, onChange }: Props) 
               <FileCheck2 size={17} aria-hidden="true" />
             </span>
             <div className="min-w-0 flex-1">
-              <h3 className="text-[14px] font-bold text-ink dark:text-white">Filename conflicts</h3>
-              <p className="mt-1 text-[12px] leading-5 text-muted-dark dark:text-slate-400">Choose what happens when a filename already exists.</p>
+              <h3 className="text-[14px] font-bold text-ink dark:text-white">{t("general.conflicts")}</h3>
+              <p className="mt-1 text-[12px] leading-5 text-muted-dark dark:text-slate-400">{t("general.conflictsDescription")}</p>
               <label className="mt-4 block">
-                <span className="sr-only">Conflict handling</span>
+                <span className="sr-only">{t("general.conflictHandling")}</span>
                 <Select
                   value={settings.conflictStrategy}
                   onChange={(event) => onChange({ ...settings, conflictStrategy: event.target.value as NamingSettings["conflictStrategy"] })}
                 >
-                  <option value="append_number">Append a number</option>
-                  <option value="uniquify">Let Chrome uniquify</option>
+                  <option value="append_number">{t("general.appendNumber")}</option>
+                  <option value="uniquify">{t("general.chromeUniquify")}</option>
                 </Select>
               </label>
             </div>
@@ -88,18 +90,23 @@ export function GeneralTab({ settings, domainRules, history, onChange }: Props) 
                 <ShieldCheck size={17} aria-hidden="true" />
               </span>
               <div>
-                <h3 className="text-[14px] font-bold text-ink dark:text-white">Protect applications</h3>
-                <p className="mt-1 text-[12px] leading-5 text-muted-dark dark:text-slate-400">Leave .exe, .dmg, and .pkg files untouched.</p>
+                <h3 className="text-[14px] font-bold text-ink dark:text-white">{t("general.protectApps")}</h3>
+                <p className="mt-1 text-[12px] leading-5 text-muted-dark dark:text-slate-400">{t("general.protectAppsDescription")}</p>
               </div>
             </div>
             <Switch
               checked={settings.skipExecutables}
               onChange={(skipExecutables) => onChange({ ...settings, skipExecutables })}
-              label="Skip executable files"
+              label={t("general.skipExecutables")}
             />
           </div>
         </Card>
       </div>
+
+      <LanguageSettings
+        value={settings.language}
+        onChange={(language) => onChange({ ...settings, language })}
+      />
 
       <Card className="p-5 sm:p-6">
         <div className="flex flex-wrap items-start justify-between gap-3">
@@ -108,25 +115,25 @@ export function GeneralTab({ settings, domainRules, history, onChange }: Props) 
               <Sparkles size={17} aria-hidden="true" />
             </span>
             <div>
-              <h3 className="text-[14px] font-bold text-ink dark:text-white">Live filename preview</h3>
-              <p className="mt-1 text-[12px] text-muted-dark dark:text-slate-400">See the exact result before your next download.</p>
+              <h3 className="text-[14px] font-bold text-ink dark:text-white">{t("general.livePreview")}</h3>
+              <p className="mt-1 text-[12px] text-muted-dark dark:text-slate-400">{t("general.livePreviewDescription")}</p>
             </div>
           </div>
-          <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[10px] font-bold text-blue-700 dark:bg-[#172c52] dark:text-blue-300">Updates instantly</span>
+          <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[10px] font-bold text-blue-700 dark:bg-[#172c52] dark:text-blue-300">{t("general.updatesInstantly")}</span>
         </div>
 
         <div className="mt-5 overflow-hidden rounded-2xl border border-[#d5dfef] bg-[#f6f8fc] dark:border-[#263854] dark:bg-[#091629]">
-          <PreviewRow label="Before" filename="invoice(3).pdf" />
-          <PreviewRow label="After" filename={preview.filename} after />
+          <PreviewRow label={t("general.before")} filename="invoice(3).pdf" />
+          <PreviewRow label={t("general.after")} filename={preview.filename} after />
         </div>
       </Card>
 
       {history.length > 0 && (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {[
-            { label: "Renamed", value: renamedCount, color: "text-blue-700 dark:text-blue-300" },
-            { label: "Kept original", value: skippedCount, color: "text-amber-600 dark:text-amber-300" },
-            { label: "Total handled", value: history.length, color: "text-ink dark:text-white" },
+            { label: t("general.renamed"), value: renamedCount, color: "text-blue-700 dark:text-blue-300" },
+            { label: t("general.keptOriginal"), value: skippedCount, color: "text-amber-600 dark:text-amber-300" },
+            { label: t("general.totalHandled"), value: history.length, color: "text-ink dark:text-white" },
           ].map(({ label, value, color }) => (
             <Card key={label} className="flex items-center gap-3.5 p-4">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-slate-100 text-slate-500 dark:bg-[#172842] dark:text-slate-300">

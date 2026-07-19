@@ -1,10 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "Smart Download Renamer",
+  "name": "__MSG_extName__",
   "version": "0.1.0",
-  "description": "Automatically rename messy downloads into clean, searchable filenames.",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
+  "homepage_url": "https://github.com/tahsinsoyak/smartdownload-renamer-extension",
   "action": {
-    "default_title": "Smart Download Renamer",
+    "default_title": "__MSG_extName__",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon16.png",

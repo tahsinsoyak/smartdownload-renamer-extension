@@ -12,6 +12,7 @@ export const TEMPLATE_PRESETS = [
 ];
 
 export const DEFAULT_SETTINGS: NamingSettings = {
+  language: "en",
   enabled: true,
   template: DEFAULT_TEMPLATE,
   dateFormat: "YYYY-MM-DD",

@@ -2,6 +2,7 @@ import { DEFAULT_DOMAIN_RULES } from "../constants/defaultRules";
 import { DEFAULT_SETTINGS } from "../constants/templates";
 import type { DomainRule, NamingSettings, RenameRecord } from "../types/downloads";
 import { getSystemTheme } from "./theme";
+import { detectLanguage, resolveLanguage } from "../locales";
 
 const SETTINGS_KEY = "settings";
 const DOMAIN_RULES_KEY = "domainRules";
@@ -30,7 +31,14 @@ function setLocal(data: Partial<LocalData>): Promise<void> {
 
 export async function getSettings(): Promise<NamingSettings> {
   const data = await getLocal(SETTINGS_KEY);
-  return { ...DEFAULT_SETTINGS, ...(data.settings ?? {}) };
+  const stored = data.settings ?? {};
+  return {
+    ...DEFAULT_SETTINGS,
+    ...stored,
+    language: "language" in stored && typeof stored.language === "string"
+      ? resolveLanguage(stored.language)
+      : detectLanguage(),
+  };
 }
 
 export async function saveSettings(settings: NamingSettings): Promise<void> {

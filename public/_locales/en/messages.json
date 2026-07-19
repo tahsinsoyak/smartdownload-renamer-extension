@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Smart Download Renamer",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Automatically rename messy downloads into clean, searchable filenames.",
+    "description": "Extension description shown by Chrome"
+  }
+}

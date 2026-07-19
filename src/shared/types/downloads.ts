@@ -19,6 +19,7 @@ export type DocumentType =
 export type DateFormat = "YYYY-MM-DD" | "DD-MM-YYYY" | "YYYYMMDD";
 
 export type NamingSettings = {
+  language: import("../locales").Language;
   enabled: boolean;
   template: string;
   dateFormat: DateFormat;

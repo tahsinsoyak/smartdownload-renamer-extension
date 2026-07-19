@@ -5,8 +5,10 @@ import {
   formatDocumentType,
   formatDownloadLocation,
   formatFileSize,
+  formatReason,
   formatRelativeTime,
 } from "../../shared/lib/formatDownload";
+import { useI18n } from "../../shared/locales/useI18n";
 import type { RenameRecord } from "../../shared/types/downloads";
 
 type LatestDownloadCardProps = {
@@ -21,31 +23,26 @@ const statusStyles = {
   failed: "bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300",
 };
 
-const statusLabels = {
-  renamed: "Renamed",
-  skipped: "Kept original",
-  failed: "Needs attention",
-};
-
 export function LatestDownloadCard({ record, onOpenFile, onShowInFolder }: LatestDownloadCardProps) {
+  const { language, t } = useI18n();
   const canOpen = record.downloadId !== undefined && record.exists !== false && Boolean(record.completedAt);
   const filename = displayFilename(record);
-  const extension = record.fileExtension.toUpperCase().slice(0, 4) || "FILE";
+  const extension = record.fileExtension.toUpperCase().slice(0, 4) || t("common.file");
 
   return (
     <section className="rounded-xl border border-[#ccd9ee] bg-white p-4 shadow-card dark:border-lift dark:bg-panel">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
-            Your latest download
+            {t("popup.latestDownload")}
           </p>
           <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-[10px] font-semibold ${statusStyles[record.status]}`}>
             {record.status === "renamed" && <Check size={11} strokeWidth={3} aria-hidden="true" />}
-            {statusLabels[record.status]}
+            {t(`statuses.${record.status}`)}
           </span>
         </div>
         <time className="shrink-0 text-[10.5px] text-slate-500 dark:text-slate-400">
-          {formatRelativeTime(record.completedAt || record.createdAt)}
+          {formatRelativeTime(record.completedAt || record.createdAt, language)}
         </time>
       </div>
 
@@ -60,12 +57,12 @@ export function LatestDownloadCard({ record, onOpenFile, onShowInFolder }: Lates
           </h2>
           {record.status === "renamed" && (
             <p className="filename-line mt-0.5 text-[11.5px] text-slate-500 dark:text-slate-400" title={record.originalFilename}>
-              <span className="mr-1 text-slate-400">was</span>{record.originalFilename}
+              <span className="mr-1 text-slate-400">{t("popup.was")}</span>{record.originalFilename}
             </p>
           )}
           {record.reason && record.status !== "renamed" && (
-            <p className="filename-line mt-0.5 text-[11.5px] text-slate-500 dark:text-slate-400" title={record.reason}>
-              {record.reason}
+            <p className="filename-line mt-0.5 text-[11.5px] text-slate-500 dark:text-slate-400" title={formatReason(record.reason, language)}>
+              {formatReason(record.reason, language)}
             </p>
           )}
         </div>
@@ -76,34 +73,34 @@ export function LatestDownloadCard({ record, onOpenFile, onShowInFolder }: Lates
           <FolderOpen size={15} aria-hidden="true" />
         </span>
         <div className="min-w-0">
-          <p className="text-[9.5px] font-bold uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400">Saved to</p>
+          <p className="text-[9.5px] font-bold uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400">{t("popup.savedTo")}</p>
           <p className="font-display filename-line mt-0.5 text-[12px] font-semibold text-ink dark:text-white" title={record.fullPath}>
-            {formatDownloadLocation(record.fullPath)}
+            {formatDownloadLocation(record.fullPath, language)}
           </p>
         </div>
       </div>
 
       <div className="mt-2.5 grid grid-cols-2 gap-2">
-        <Button size="compact" className="h-10 text-[12.5px]" onClick={() => onOpenFile(record)} disabled={!canOpen} title={canOpen ? "Open the downloaded file" : "Available for newly completed downloads"}>
-          <ExternalLink size={14} aria-hidden="true" /> Open file
+        <Button size="compact" className="h-10 text-[12.5px]" onClick={() => onOpenFile(record)} disabled={!canOpen} title={canOpen ? t("popup.openAvailable") : t("popup.openUnavailable")}>
+          <ExternalLink size={14} aria-hidden="true" /> {t("actions.openFile")}
         </Button>
         <Button size="compact" className="h-10 text-[12.5px]" variant="secondary" onClick={() => onShowInFolder(record)}>
-          <FolderOpen size={14} aria-hidden="true" /> Show in folder
+          <FolderOpen size={14} aria-hidden="true" /> {t("actions.showInFolder")}
         </Button>
       </div>
 
       <dl className="mt-3 grid grid-cols-[1.25fr_.65fr_1fr] border-t border-[#dbe3f0] pt-2.5 dark:border-lift">
         <div className="min-w-0 border-r border-[#dbe3f0] pr-2 dark:border-lift">
-          <dt className="flex items-center gap-1 text-[10px] text-slate-500 dark:text-slate-400"><Globe2 size={11} aria-hidden="true" /> Source</dt>
-          <dd className="font-display filename-line mt-0.5 text-[11px] font-semibold text-ink dark:text-white">{record.sourceDomain || record.sourceName || "Unknown"}</dd>
+          <dt className="flex items-center gap-1 text-[10px] text-slate-500 dark:text-slate-400"><Globe2 size={11} aria-hidden="true" /> {t("popup.source")}</dt>
+          <dd className="font-display filename-line mt-0.5 text-[11px] font-semibold text-ink dark:text-white">{record.sourceDomain || record.sourceName || t("common.unknown")}</dd>
         </div>
         <div className="min-w-0 border-r border-[#dbe3f0] px-2 dark:border-lift">
-          <dt className="text-[10px] text-slate-500 dark:text-slate-400">Size</dt>
-          <dd className="font-display filename-line mt-0.5 text-[11px] font-semibold text-ink dark:text-white">{formatFileSize(record.fileSize)}</dd>
+          <dt className="text-[10px] text-slate-500 dark:text-slate-400">{t("popup.size")}</dt>
+          <dd className="font-display filename-line mt-0.5 text-[11px] font-semibold text-ink dark:text-white">{formatFileSize(record.fileSize, language)}</dd>
         </div>
         <div className="min-w-0 pl-2">
-          <dt className="text-[10px] text-slate-500 dark:text-slate-400">Type</dt>
-          <dd className="font-display filename-line mt-0.5 text-[11px] font-semibold text-ink dark:text-white">{formatDocumentType(record)}</dd>
+          <dt className="text-[10px] text-slate-500 dark:text-slate-400">{t("popup.type")}</dt>
+          <dd className="font-display filename-line mt-0.5 text-[11px] font-semibold text-ink dark:text-white">{formatDocumentType(record, language)}</dd>
         </div>
       </dl>
     </section>

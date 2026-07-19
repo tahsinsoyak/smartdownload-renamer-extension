@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSettingsStore } from "../shared/store/useSettingsStore";
+import { useI18n } from "../shared/locales/useI18n";
 import { AboutTab } from "./components/AboutTab";
 import { DomainRules } from "./components/DomainRules";
 import { GeneralTab } from "./components/GeneralTab";
@@ -12,6 +13,7 @@ import { RecentHistory } from "./components/RecentHistory";
 import { getNavigationItem, OPTIONS_NAVIGATION, type OptionsTab } from "./navigation";
 
 export function OptionsApp() {
+  const { t } = useI18n();
   const {
     settings,
     domainRules,
@@ -74,7 +76,7 @@ export function OptionsApp() {
           <OptionsNavigation activeTab={tab} historyCount={history.length} onSelect={selectTab} />
 
           <main className="min-w-0 flex-1">
-            <OptionsPageHeader title={page.label} description={page.description} Icon={page.Icon} />
+            <OptionsPageHeader title={t(page.labelKey)} description={t(page.descriptionKey)} Icon={page.Icon} />
             {tab === "general" && (
               <GeneralTab settings={settings} domainRules={domainRules} history={history} onChange={saveSettings} />
             )}

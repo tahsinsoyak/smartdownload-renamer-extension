@@ -1,4 +1,5 @@
 import { OPTIONS_NAVIGATION, type OptionsTab } from "../navigation";
+import { useI18n } from "../../shared/locales/useI18n";
 
 type OptionsNavigationProps = {
   activeTab: OptionsTab;
@@ -17,10 +18,11 @@ function HistoryBadge({ active, count }: { active: boolean; count: number }) {
 }
 
 export function OptionsNavigation({ activeTab, historyCount, onSelect }: OptionsNavigationProps) {
+  const { t } = useI18n();
   return (
     <>
       <div className="-mx-4 mb-6 flex overflow-x-auto border-b border-[#d7e0ee] px-4 dark:border-[#263854] md:hidden">
-        {OPTIONS_NAVIGATION.map(({ id, label, Icon }) => {
+        {OPTIONS_NAVIGATION.map(({ id, labelKey, Icon }) => {
           const active = activeTab === id;
           return (
             <button
@@ -29,7 +31,7 @@ export function OptionsNavigation({ activeTab, historyCount, onSelect }: Options
               className={`flex shrink-0 cursor-pointer items-center gap-2 border-b-2 px-3.5 pb-3.5 text-[13px] font-semibold transition-colors ${active ? "border-blue-600 text-blue-700 dark:border-blue-400 dark:text-blue-300" : "border-transparent text-muted-dark hover:text-ink dark:text-slate-400 dark:hover:text-white"}`}
             >
               <Icon size={15} />
-              {label}
+              {t(labelKey)}
               {id === "history" && <HistoryBadge active={active} count={historyCount} />}
             </button>
           );
@@ -38,9 +40,9 @@ export function OptionsNavigation({ activeTab, historyCount, onSelect }: Options
 
       <aside className="hidden w-56 shrink-0 md:block">
         <nav className="sticky top-[88px] rounded-2xl border border-border-light bg-white p-2.5 shadow-card dark:border-[#263854] dark:bg-panel">
-          <p className="px-3 pb-2 pt-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">Settings</p>
+          <p className="px-3 pb-2 pt-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">{t("navigation.eyebrow")}</p>
           <div className="space-y-1">
-            {OPTIONS_NAVIGATION.map(({ id, label, Icon }) => {
+            {OPTIONS_NAVIGATION.map(({ id, labelKey, Icon }) => {
               const active = activeTab === id;
               return (
                 <button
@@ -49,7 +51,7 @@ export function OptionsNavigation({ activeTab, historyCount, onSelect }: Options
                   className={`flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left text-[13px] transition-colors ${active ? "bg-blue-600 font-bold text-white shadow-[0_6px_16px_rgba(37,99,235,0.18)] dark:bg-blue-500 dark:text-[#07111f]" : "font-semibold text-muted-dark hover:bg-blue-50 hover:text-blue-700 dark:text-slate-400 dark:hover:bg-[#172842] dark:hover:text-blue-300"}`}
                 >
                   <Icon size={16} className="shrink-0" />
-                  <span>{label}</span>
+                  <span>{t(labelKey)}</span>
                   {id === "history" && <HistoryBadge active={active} count={historyCount} />}
                 </button>
               );

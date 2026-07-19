@@ -11,6 +11,7 @@ import {
   saveSettings,
   saveTheme
 } from "../lib/storage";
+import { applyDocumentLanguage } from "../locales";
 
 type SettingsStore = {
   loading: boolean;
@@ -34,10 +35,12 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   theme: "light",
   load: async () => {
     const [settings, domainRules, history, theme] = await Promise.all([getSettings(), getDomainRules(), getHistory(), getTheme()]);
+    applyDocumentLanguage(settings.language);
     set({ settings, domainRules, history, theme, loading: false });
   },
   updateSettings: async (settings) => {
     await saveSettings(settings);
+    applyDocumentLanguage(settings.language);
     set({ settings });
   },
   updateDomainRules: async (domainRules) => {

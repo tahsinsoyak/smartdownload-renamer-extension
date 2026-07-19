@@ -49,6 +49,7 @@ The extension intercepts each download before it hits your folder, reads its URL
 - **Domain rules** — map any domain to a custom source name and default document type
 - **Filename history** — see what was renamed, skipped, or failed with timestamps
 - **Dark mode** — full light/dark support
+- **English and Turkish** — localized popup, settings, dates, statuses, and document labels
 - **Skip executables** — never touches `.exe`, `.dmg`, `.pkg` files
 - **No account, no backend, no analytics** — everything runs in your browser
 
@@ -56,13 +57,16 @@ The extension intercepts each download before it hits your folder, reads its URL
 
 ## Privacy
 
-Smart Download Renamer works entirely locally. It uses Chrome download metadata only to suggest cleaner filenames. Nothing is sent to any server.
+Smart Download Renamer works entirely locally. It uses Chrome-provided download metadata, including filenames and source URLs, only to suggest cleaner filenames and show completed download details. It does not read downloaded file contents. Nothing is sent to the developer or any server.
 
 **Permissions used:**
-- `downloads` — intercepts download filenames before saving
-- `storage` — saves your settings, rules, and rename history locally
+- `downloads` — detects downloads, suggests filenames, and shows completed downloads in their folders
+- `downloads.open` — opens a completed file only after you choose **Open file**
+- `storage` — saves settings, rules, language, theme, and rename history locally
 
-**Not collected:** file contents · cookies · browsing history · analytics · ads · any form of telemetry
+**Not collected or transmitted:** file contents · cookies · accounts · analytics · advertising identifiers · telemetry
+
+Read the full [Privacy Policy](docs/privacy-policy.md) and [Support information](docs/support.md).
 
 ---
 
@@ -95,6 +99,7 @@ Download `smart-download-renamer.zip` from [Releases](https://github.com/tahsins
 npm run dev       # Vite dev server for popup and options UI
 npm run build     # Production build → dist/
 npm run test      # Unit tests (Vitest)
+npm run release:check # Full UI, locale, privacy, and package-readiness checks
 npm run zip       # Build + package → release/smart-download-renamer.zip
 npm run icons     # Regenerate PNG icons from public/icon.svg
 ```

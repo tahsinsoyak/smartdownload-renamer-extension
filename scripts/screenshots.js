@@ -38,7 +38,7 @@ console.log("Serving dist/ at", base);
 const now = Date.now();
 const MOCK = {
   settings: {
-    enabled: true, template: "{date}_{source}_{type}.{ext}",
+    language: "en", enabled: true, template: "{date}_{source}_{type}.{ext}",
     dateFormat: "YYYY-MM-DD", separator: "_",
     preserveOriginalName: false, includeSource: true, includeType: true,
     includeDate: true, asciiSafeMode: true, allowTurkishCharacters: false,
@@ -63,9 +63,9 @@ const MOCK = {
 
 // Adds chrome.storage onto the existing (protected) window.chrome object.
 // chrome itself can't be replaced, but chrome.storage can be added as a new property.
-function buildInitScript(theme) {
+function buildInitScript(theme, language = "en") {
   return `(function () {
-    const STORE = ${JSON.stringify({ ...MOCK, theme })};
+    const STORE = ${JSON.stringify({ ...MOCK, settings: { ...MOCK.settings, language }, theme })};
     const mockLocal = {
       get(key, cb) {
         let res = {};
@@ -95,11 +95,11 @@ const browser = await chromium.launch({
   args: ["--no-sandbox", "--disable-setuid-sandbox"],
 });
 
-async function openPage(page, theme, viewport) {
+async function openPage(page, theme, viewport, language = "en") {
   // Match the CSS pixel scale used by Chrome's actual extension popup.
   const ctx = await browser.newContext({ viewport, deviceScaleFactor: 1 });
   const p = await ctx.newPage();
-  await p.addInitScript(buildInitScript(theme));
+  await p.addInitScript(buildInitScript(theme, language));
   await p.goto(`${base}/${page}`, { waitUntil: "networkidle" });
   await p.waitForTimeout(1500);
   return { p, ctx };
@@ -124,6 +124,11 @@ async function clickTab(p, label) {
   await p.screenshot({ path:`${outDir}/popup-dark.png`, clip:{x:0,y:0,width:420,height:600} });
   console.log("✓ popup-dark.png"); await ctx.close(); }
 
+// Popup — Turkish
+{ const { p, ctx } = await openPage("popup.html", "light", { width:420, height:600 }, "tr");
+  await p.screenshot({ path:`${outDir}/popup-light-tr.png`, clip:{x:0,y:0,width:420,height:600} });
+  console.log("✓ popup-light-tr.png"); await ctx.close(); }
+
 // ── 3. Options — General tab ──────────────────────────────────────────────────
 { const { p, ctx } = await openPage("options.html", "light", { width:1200, height:820 });
   await p.screenshot({ path:`${outDir}/options-general.png` });
@@ -133,6 +138,11 @@ async function clickTab(p, label) {
 { const { p, ctx } = await openPage("options.html", "dark", { width:1200, height:820 });
   await p.screenshot({ path:`${outDir}/options-general-dark.png` });
   console.log("✓ options-general-dark.png"); await ctx.close(); }
+
+// Options — General tab, Turkish
+{ const { p, ctx } = await openPage("options.html", "light", { width:1200, height:820 }, "tr");
+  await p.screenshot({ path:`${outDir}/options-general-tr.png` });
+  console.log("✓ options-general-tr.png"); await ctx.close(); }
 
 // ── 4. Options — History tab ──────────────────────────────────────────────────
 { const { p, ctx } = await openPage("options.html", "light", { width:1200, height:820 });

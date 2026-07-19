@@ -4,40 +4,40 @@ export type OptionsTab = "general" | "template" | "domains" | "history" | "about
 
 export type NavigationItem = {
   id: OptionsTab;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   Icon: LucideIcon;
 };
 
 export const OPTIONS_NAVIGATION: NavigationItem[] = [
   {
     id: "general",
-    label: "General",
-    description: "Automatic renaming, safety, and filename preview.",
+    labelKey: "navigation.general",
+    descriptionKey: "navigation.generalDescription",
     Icon: Settings2,
   },
   {
     id: "template",
-    label: "Template",
-    description: "Choose the information included in every filename.",
+    labelKey: "navigation.template",
+    descriptionKey: "navigation.templateDescription",
     Icon: Code2,
   },
   {
     id: "domains",
-    label: "Domains",
-    description: "Create clearer naming rules for familiar websites.",
+    labelKey: "navigation.domains",
+    descriptionKey: "navigation.domainsDescription",
     Icon: Globe,
   },
   {
     id: "history",
-    label: "History",
-    description: "Find renamed downloads and their saved locations.",
+    labelKey: "navigation.history",
+    descriptionKey: "navigation.historyDescription",
     Icon: Clock,
   },
   {
     id: "about",
-    label: "About",
-    description: "Permissions, privacy details, and extension data.",
+    labelKey: "navigation.about",
+    descriptionKey: "navigation.aboutDescription",
     Icon: Shield,
   },
 ];

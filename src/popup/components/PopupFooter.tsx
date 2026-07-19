@@ -1,7 +1,9 @@
 import { Heart } from "lucide-react";
 import { SUPPORT_URL } from "../../shared/constants/links";
+import { useI18n } from "../../shared/locales/useI18n";
 
 export function PopupFooter() {
+  const { t } = useI18n();
   return (
     <footer className="border-t border-[#dbe3f0] bg-white px-3 py-2 dark:border-lift dark:bg-[#0a1729]">
       <a
@@ -9,9 +11,9 @@ export function PopupFooter() {
         href={SUPPORT_URL}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Support Smart Download Renamer on Patreon"
+        aria-label={t("accessibility.supportPatreon")}
       >
-        <Heart size={15} aria-hidden="true" /> Support this extension
+        <Heart size={15} aria-hidden="true" /> {t("actions.supportExtension")}
       </a>
     </footer>
   );
