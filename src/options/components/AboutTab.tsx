@@ -1,11 +1,42 @@
-import { LockKeyhole, ShieldAlert, Trash2 } from "lucide-react";
+import { Download, LockKeyhole, ShieldAlert, Trash2, Upload } from "lucide-react";
+import { useRef, useState } from "react";
 import { Button } from "../../shared/components/Button";
 import { Card } from "../../shared/components/Card";
 import { DOCUMENT_TYPE_KEYWORDS } from "../../shared/constants/documentTypes";
 import { useI18n } from "../../shared/locales/useI18n";
+import { parseBackup, type ExtensionBackup } from "../../shared/lib/backup";
 
-export function AboutTab({ onClearAll }: { onClearAll: () => void }) {
+export function AboutTab({ onClearAll, backup, onRestore }: {
+  onClearAll: () => Promise<void>;
+  backup: ExtensionBackup;
+  onRestore: (backup: ExtensionBackup) => Promise<void>;
+}) {
   const { t } = useI18n();
+  const fileInput = useRef<HTMLInputElement>(null);
+  const [notice, setNotice] = useState("");
+  const [confirmClear, setConfirmClear] = useState(false);
+
+  const exportBackup = () => {
+    const url = URL.createObjectURL(new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" }));
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `smart-download-renamer-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    anchor.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+
+  const importBackup = async (file?: File) => {
+    if (!file) return;
+    try {
+      if (file.size > 5_000_000) throw new Error("fileTooLarge");
+      await onRestore(parseBackup(await file.text()));
+      setNotice(t("about.importSuccess"));
+    } catch {
+      setNotice(t("about.importError"));
+    } finally {
+      if (fileInput.current) fileInput.current.value = "";
+    }
+  };
 
   return (
     <div className="space-y-3">
@@ -39,9 +70,23 @@ export function AboutTab({ onClearAll }: { onClearAll: () => void }) {
           {t("about.dataControls")}
         </h2>
         <p className="mt-2 text-sm text-muted-dark dark:text-muted">{t("about.dataDescription")}</p>
-        <Button className="mt-4" variant="danger" onClick={onClearAll}>
-          <Trash2 size={14} /> {t("actions.clearAllData")}
-        </Button>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Button variant="secondary" onClick={exportBackup}><Download size={14} /> {t("about.exportBackup")}</Button>
+          <Button variant="secondary" onClick={() => fileInput.current?.click()}><Upload size={14} /> {t("about.importBackup")}</Button>
+          <Button variant="danger" onClick={async () => {
+            if (!confirmClear) { setConfirmClear(true); return; }
+            try {
+              await onClearAll();
+              setConfirmClear(false);
+              setNotice(t("about.cleared"));
+            } catch {
+              setNotice(t("about.clearError"));
+            }
+          }}><Trash2 size={14} /> {confirmClear ? t("about.confirmClear") : t("actions.clearAllData")}</Button>
+        </div>
+        <input ref={fileInput} className="sr-only" type="file" accept=".json,application/json" onChange={(event) => void importBackup(event.target.files?.[0])} aria-label={t("about.importBackup")} />
+        <p className="mt-2 text-xs text-muted-dark dark:text-muted">{t("about.backupDescription")}</p>
+        {notice && <p role="status" className="mt-3 text-sm font-medium text-ink dark:text-white">{notice}</p>}
       </Card>
 
       <Card className="p-5">

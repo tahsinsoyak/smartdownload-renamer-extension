@@ -2,7 +2,8 @@ import { DEFAULT_DOMAIN_RULES } from "../constants/defaultRules";
 import { DEFAULT_SETTINGS } from "../constants/templates";
 import type { DomainRule, NamingSettings, RenameRecord } from "../types/downloads";
 import { getSystemTheme } from "./theme";
-import { detectLanguage, resolveLanguage } from "../locales";
+import { detectLanguage, resolveLanguage } from "../locales/catalog";
+import type { ExtensionBackup } from "./backup";
 
 const SETTINGS_KEY = "settings";
 const DOMAIN_RULES_KEY = "domainRules";
@@ -95,4 +96,13 @@ export async function saveTheme(theme: "light" | "dark"): Promise<void> {
 export async function clearAllData(): Promise<void> {
   if (!hasChromeStorage()) return;
   await chrome.storage.local.clear();
+}
+
+export async function saveBackup(backup: ExtensionBackup): Promise<void> {
+  await setLocal({
+    settings: backup.settings,
+    domainRules: backup.domainRules,
+    renameHistory: backup.history,
+    theme: backup.theme,
+  });
 }

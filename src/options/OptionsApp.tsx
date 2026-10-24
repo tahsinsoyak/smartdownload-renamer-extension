@@ -25,6 +25,7 @@ export function OptionsApp() {
     clearHistory,
     clearAll,
     setTheme,
+    restoreBackup,
   } = useSettingsStore();
 
   const [tab, setTab] = useState<OptionsTab>(() => {
@@ -83,7 +84,15 @@ export function OptionsApp() {
             {tab === "template" && <NamingTemplateSettings settings={settings} onChange={saveSettings} />}
             {tab === "domains" && <DomainRules rules={domainRules} onChange={updateDomainRules} />}
             {tab === "history" && <RecentHistory history={history} onClear={clearHistory} />}
-            {tab === "about" && <AboutTab onClearAll={clearAll} />}
+            {tab === "about" && <AboutTab onClearAll={clearAll} onRestore={restoreBackup} backup={{
+              format: "smart-download-renamer-backup",
+              version: 1,
+              exportedAt: new Date().toISOString(),
+              settings,
+              domainRules,
+              history,
+              theme,
+            }} />}
           </main>
         </div>
       </div>
