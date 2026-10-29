@@ -154,6 +154,14 @@ export const tr = createLocale({
     showing: "{count} kaydın 20 tanesi gösteriliyor · tümünü görmek için JSON dışa aktarın",
   },
   about: {
+    exportBackup: "Yedeği dışa aktar",
+    importBackup: "Yedeği içe aktar",
+    backupDescription: "Yedek; ayarları, site kurallarını ve dosya adları ile URL'leri içeren indirme geçmişini içerir. JSON dosyasını gizli tutun. İçe aktarma mevcut verilerin yerine geçer. İçe aktarılan geçmiş eski indirmeleri açamaz.",
+    importSuccess: "Yedek geri yüklendi.",
+    importError: "Yedek içe aktarılamadı. Geçerli bir Smart Download Renamer yedeği seçin.",
+    confirmClear: "Temizlemeyi onayla",
+    cleared: "Yerel veriler temizlendi.",
+    clearError: "Yerel veriler temizlenemedi. Tekrar deneyin.",
     privacy: "Gizlilik",
     privacyDescription: "Smart Download Renamer daha temiz dosya adları önermek için indirme meta verilerini yerel olarak işler. İndirme meta verileri, dosya adları, URL'ler, yollar, ayarlar ve kurallar geliştiriciye veya üçüncü taraflara gönderilmez.",
     permissionsUsed: "Kullanılan izinler",
@@ -166,7 +174,7 @@ export const tr = createLocale({
     dataDescription: "Bu tarayıcıdaki tüm yerel ayarları, alan adı kurallarını, temayı, dili ve yeniden adlandırma geçmişini temizler. Bu işlem geri alınamaz.",
     keywordTitle: "Belge türü anahtar sözcükleri",
     keywordDescription: "İndirilen dosyaları türüne göre sınıflandırmak için kullanılan salt okunur anahtar sözcük kuralları.",
-    version: "Sürüm 1.0.0 · Ücretsiz · Yerel öncelikli · Sunucusuz",
+    version: "Sürüm 1.1.0 · Ücretsiz · Yerel öncelikli · Sunucusuz",
   },
   support: {
     title: "Smart Download Renamer'ı beğendiniz mi?",

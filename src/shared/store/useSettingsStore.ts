@@ -11,7 +11,9 @@ import {
   saveSettings,
   saveTheme
 } from "../lib/storage";
-import { applyDocumentLanguage } from "../locales";
+import { applyDocumentLanguage } from "../locales/catalog";
+import type { ExtensionBackup } from "../lib/backup";
+import { saveBackup } from "../lib/storage";
 
 type SettingsStore = {
   loading: boolean;
@@ -25,6 +27,7 @@ type SettingsStore = {
   clearHistory: () => Promise<void>;
   clearAll: () => Promise<void>;
   setTheme: (theme: "light" | "dark") => Promise<void>;
+  restoreBackup: (backup: ExtensionBackup) => Promise<void>;
 };
 
 export const useSettingsStore = create<SettingsStore>((set, get) => ({
@@ -58,5 +61,9 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   setTheme: async (theme) => {
     await saveTheme(theme);
     set({ theme });
-  }
+  },
+  restoreBackup: async (backup) => {
+    await saveBackup(backup);
+    await get().load();
+  },
 }));

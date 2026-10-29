@@ -1,5 +1,9 @@
 import { en } from "./en";
 import { tr } from "./tr";
+import { es } from "./es";
+import { de } from "./de";
+import { fr } from "./fr";
+import { ptBR } from "./ptBR";
 import type { LocaleMessages } from "./createLocale";
 import type { Language } from "./catalog";
 
@@ -13,7 +17,7 @@ export {
 } from "./catalog";
 export type { Language, LanguageConfig } from "./catalog";
 
-const translations: Record<Language, LocaleMessages> = { en, tr };
+const translations: Record<Language, LocaleMessages> = { en, tr, es, de, fr, "pt-BR": ptBR };
 
 function resolveKey(messages: LocaleMessages, path: readonly string[]): unknown {
   let value: unknown = messages;
