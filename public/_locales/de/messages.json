@@ -1,0 +1,4 @@
+{
+  "extName": { "message": "Intelligenter Download-Umbenenner", "description": "Name der Erweiterung" },
+  "extDescription": { "message": "Benennt unübersichtliche Downloads automatisch in klare, leicht auffindbare Dateinamen um.", "description": "Beschreibung der Erweiterung" }
+}

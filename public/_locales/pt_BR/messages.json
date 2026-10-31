@@ -1,0 +1,4 @@
+{
+  "extName": { "message": "Renomeador Inteligente de Downloads", "description": "Nome da extensão" },
+  "extDescription": { "message": "Renomeia downloads automaticamente com nomes de arquivo claros e fáceis de encontrar.", "description": "Descrição da extensão" }
+}

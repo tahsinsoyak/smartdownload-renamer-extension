@@ -1,0 +1,4 @@
+{
+  "extName": { "message": "Renombrador Inteligente de Descargas", "description": "Nombre de la extensión" },
+  "extDescription": { "message": "Renombra automáticamente tus descargas con nombres claros y fáciles de encontrar.", "description": "Descripción de la extensión" }
+}

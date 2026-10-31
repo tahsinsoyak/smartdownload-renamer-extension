@@ -1,0 +1,4 @@
+{
+  "extName": { "message": "Renommeur Intelligent de Téléchargements", "description": "Nom de l’extension" },
+  "extDescription": { "message": "Renomme automatiquement vos téléchargements avec des noms clairs et faciles à retrouver.", "description": "Description de l’extension" }
+}
