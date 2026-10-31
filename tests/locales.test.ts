@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { formatDocumentType, formatDownloadLocation, formatFileSize } from "../src/shared/lib/formatDownload";
-import { resolveLanguage, translate } from "../src/shared/locales";
+import { languageCodes, resolveLanguage, translate } from "../src/shared/locales";
 import type { RenameRecord } from "../src/shared/types/downloads";
 
 const record: RenameRecord = {
@@ -17,7 +17,11 @@ describe("localization", () => {
   it("resolves supported browser locales with English fallback", () => {
     expect(resolveLanguage("tr-TR")).toBe("tr");
     expect(resolveLanguage("en-GB")).toBe("en");
-    expect(resolveLanguage("de-DE")).toBe("en");
+    expect(resolveLanguage("de-DE")).toBe("de");
+    expect(resolveLanguage("es-MX")).toBe("es");
+    expect(resolveLanguage("fr-CA")).toBe("fr");
+    expect(resolveLanguage("pt_BR")).toBe("pt-BR");
+    expect(resolveLanguage("ja-JP")).toBe("en");
   });
 
   it("translates Turkish interface copy and placeholders", () => {
@@ -27,6 +31,15 @@ describe("localization", () => {
 
   it("falls back safely when a translation key is unknown", () => {
     expect(translate("missing.key", "tr")).toBe("missing.key");
+  });
+
+  it("translates key interface labels in every supported language", () => {
+    const settings = ["Settings", "Ayarlar", "Configuración", "Einstellungen", "Paramètres", "Configurações"];
+    languageCodes.forEach((language, index) => {
+      expect(translate("actions.settings", language)).toBe(settings[index]);
+      expect(translate("history.renamedCount", language, { count: 3 })).toContain("3");
+      expect(translate("about.importBackup", language)).not.toBe("about.importBackup");
+    });
   });
 
   it("localizes details without changing stored download values", () => {
