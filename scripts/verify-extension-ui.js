@@ -163,6 +163,19 @@ try {
   }));
   await mobileOptions.screenshot({ path: path.join(screenshotsDir, "options-extension-mobile-dark-tr.png"), fullPage: true });
 
+  const additionalLocales = {};
+  for (const language of ["es", "de", "fr", "pt-BR"]) {
+    await popup.evaluate((code) => chrome.storage.local.set({ settings: { language: code } }), language);
+    await popup.reload({ waitUntil: "networkidle" });
+    await mobileOptions.reload({ waitUntil: "networkidle" });
+    additionalLocales[language] = {
+      popupLanguage: await popup.evaluate(() => document.documentElement.lang),
+      popupOverflow: await popup.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth),
+      optionsLanguage: await mobileOptions.evaluate(() => document.documentElement.lang),
+      optionsOverflow: await mobileOptions.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth),
+    };
+  }
+
   if (!popupMetrics.bodyFontLoaded || !popupMetrics.displayFontLoaded || popupMetrics.bodyFont !== popupMetrics.rootFont) {
     throw new Error("Bundled UI font did not load in the extension context.");
   }
@@ -212,6 +225,10 @@ try {
   if (mobileMetrics.scrollWidth > mobileMetrics.width) {
     throw new Error("Options page has horizontal overflow on a 375px viewport.");
   }
+  if (Object.entries(additionalLocales).some(([language, result]) =>
+    result.popupLanguage !== language || result.optionsLanguage !== language || result.popupOverflow || result.optionsOverflow)) {
+    throw new Error("An additional locale did not load or caused horizontal overflow.");
+  }
   if (pageErrors.length > 0) {
     throw new Error(`Extension page errors: ${pageErrors.join(" | ")}`);
   }
@@ -226,6 +243,7 @@ try {
     supportByTab,
     desktopSupportLinks,
     mobileOptions: mobileMetrics,
+    additionalLocales,
     pageErrors,
   }, null, 2));
 } finally {
