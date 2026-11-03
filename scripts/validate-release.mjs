@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 const root = path.resolve(import.meta.dirname, "..");
-const requiredLocales = ["en", "tr"];
+const requiredLocales = ["en", "tr", "es", "de", "fr", "pt_BR"];
 const requiredPermissions = ["downloads", "downloads.open", "storage"];
 const requiredDocs = [
   "docs/privacy-policy.md",

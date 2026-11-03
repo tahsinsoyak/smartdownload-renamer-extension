@@ -43,13 +43,15 @@ The extension intercepts each download before it hits your folder, reads its URL
 ## Features
 
 - **Automatic renaming** — triggers on every download with zero friction
-- **Source detection** — reads the domain and maps it to a readable name (Amazon, Trendyol, GitHub, …)
+- **Source detection across websites** — recognizes common shopping, banking, learning, cloud, developer, travel, and social sites; derives a readable name for other domains, including country domains such as `.co.uk` and `.com.tr`
+- **Download host fallback** — uses the referring website when a generic cloud storage host serves the file
 - **Document classification** — detects invoices, receipts, certificates, transcripts, and 10+ other types from filename keywords
 - **Custom templates** — `{date}_{source}_{type}.{ext}` and five built-in presets
 - **Domain rules** — map any domain to a custom source name and default document type
 - **Filename history** — see what was renamed, skipped, or failed with timestamps
+- **Local backup and restore** — export or import settings, domain rules, and history from the About page
 - **Dark mode** — full light/dark support
-- **English and Turkish** — localized popup, settings, dates, statuses, and document labels
+- **Six interface languages** — English, Turkish, Spanish, German, French, and Brazilian Portuguese across the popup and settings
 - **Skip executables** — never touches `.exe`, `.dmg`, `.pkg` files
 - **No account, no backend, no analytics** — everything runs in your browser
 
