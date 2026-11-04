@@ -23,6 +23,10 @@ Automatically suggest clearer filenames for downloads and show users the final f
 
 - English
 - Turkish
+- Spanish
+- German
+- French
+- Portuguese (Brazil)
 
 The Store listing language should match the corresponding localized copy under `listings`.
 
