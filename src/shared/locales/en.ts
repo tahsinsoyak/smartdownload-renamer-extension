@@ -173,7 +173,7 @@ export const en = {
     clearError: "Could not clear local data. Please try again.",
     keywordTitle: "Document type keywords",
     keywordDescription: "Read-only keyword rules used to classify downloaded files by type.",
-    version: "Version 1.1.0 · Free · Local-first · No backend",
+    version: "Version 1.1.1 · Free · Local-first · No backend",
   },
   support: {
     title: "Enjoying Smart Download Renamer?",

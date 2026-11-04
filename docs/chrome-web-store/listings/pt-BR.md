@@ -10,26 +10,25 @@
 
 ## Detailed description
 
-O Smart Download Renamer ajuda você a reconhecer na hora o que é cada arquivo baixado, de onde ele veio, qual nome recebeu e em qual pasta o Chrome o guardou.
+O Smart Download Renamer ajuda você a manter seus arquivos organizados atribuindo nomes claros e padronizados aos novos downloads assim que eles começam.
 
-Assim que um download se inicia, a extensão analisa os metadados fornecidos pelo próprio Chrome para identificar a origem e a categoria do documento, sugerindo um nome limpo e descritivo baseado no seu modelo preferido. Ao terminar, a janela pop-up apresenta o nome final, o nome original, o site de origem, o tipo de arquivo, o tamanho e a pasta de destino. Você pode abrir o arquivo concluído ou localizá-lo na pasta com apenas um clique.
+Quando um download é iniciado, a extensão utiliza os metadados disponibilizados pelo próprio navegador para identificar o site de origem e a categoria do documento, aplicando o modelo de nomenclatura de sua preferência. Ao término, a janela pop-up exibe o nome final, o nome original, o site de origem, o tamanho do arquivo e a pasta de destino. Você pode abrir o arquivo concluído ou localizá-lo em sua pasta com um único clique.
 
-Principais recursos:
+Recursos principais:
 
-- Sugestão automática de nomes para novos downloads
-- Identificação de origem em mais de 100 serviços populares e resolução inteligente para domínios de países (.com.br, .co.uk, etc.)
-- Detecção precisa do site de origem mesmo quando o arquivo é servido por CDNs ou servidores em nuvem
-- Classificação automática para notas fiscais, faturas, recibos, certificados, relatórios, arquivos compactados e imagens
-- Modelos de nomenclatura personalizáveis e formatos de data flexíveis
-- Regras personalizadas por domínio para definir nomes de fontes e tipos padrão
-- Proteção automática para arquivos executáveis e instaladores (.exe, .msi, .dmg)
-- Histórico local detalhado com busca rápida e exportação em formato JSON
-- Backup e restauração local completa de preferências, regras e histórico
-- Ações imediatas: Abrir arquivo e Mostrar na pasta
-- Modos visual claro e escuro
-- Interface em 6 idiomas: português do Brasil, inglês, turco, espanhol, alemão e francês
+- Sugestões automáticas de nomes de arquivo no início dos downloads
+- Detecção do site de origem com base no domínio e no endereço de download
+- Classificação contextual orientada pelas propriedades e cabeçalhos do arquivo
+- Modelos de nomes personalizáveis com variáveis de data, origem e documento
+- Regras por domínio para definir nomes de fontes preferenciais em sites específicos
+- Proteção automática para manter nomes originais de instaladores de programas
+- Histórico local pesquisável com suporte a exportação de dados
+- Backup e restauração local para configurações, regras personalizadas e histórico
+- Ações rápidas para abrir arquivos concluídos ou visualizá-los na pasta
+- Opções de temas visual claro e escuro
+- Interface disponível em múltiplos idiomas
 
-Privacidade rigorosa:
-Todos os metadados, nomes de arquivos, links, pastas de salvamento, configurações, regras e registros de histórico são processados exclusivamente de modo local no navegador. Nenhuma informação é transmitida para o desenvolvedor ou terceiros. A extensão não lê o conteúdo de arquivos baixados, dispensa contas de usuário e não possui rastreadores, telemetria, anúncios ou servidores externos.
+Privacidade e segurança:
+Todo o processamento é realizado de ponta a ponta de forma local no seu navegador. Dados de download, nomes de arquivos, links, preferências e histórico nunca são enviados para servidores externos ou terceiros. A extensão dispensa cadastro, não lê o conteúdo interno dos seus arquivos e é totalmente livre de anúncios, ferramentas de análise ou rastreamento.
 
-O Smart Download Renamer é gratuito. Um link opcional para o Patreon está disponível para quem quiser incentivar o desenvolvimento contínuo; ele não desbloqueia recursos e nunca será obrigatório.
+O Smart Download Renamer é totalmente gratuito. Um link voluntário para o Patreon está disponível para quem deseja apoiar o desenvolvimento do projeto, sem restringir nenhum recurso.

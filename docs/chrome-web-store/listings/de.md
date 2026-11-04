@@ -10,26 +10,25 @@
 
 ## Detailed description
 
-Smart Download Renamer hilft Ihnen jederzeit zu verstehen, welche Datei Sie heruntergeladen haben, woher sie stammt, wie sie benannt wurde und in welchem Ordner Chrome sie abgelegt hat.
+Smart Download Renamer hilft Ihnen dabei, Ihre Downloads von Beginn an übersichtlich zu organisieren, indem neue Dateien automatisch einheitliche und verständliche Namen erhalten.
 
-Sobald ein Download startet, nutzt die Erweiterung die von Chrome bereitgestellten Download-Metadaten, um die Quelle sowie den Dokumenttyp zu ermitteln, und schlägt basierend auf Ihrer Vorlage einen sauberen Dateinamen vor. Nach Abschluss des Downloads zeigt das Popup-Fenster den finalen Dateinamen, den ursprünglichen Namen, die Website-Quelle, den Dateityp, die Dateigröße und den Speicherort an. Mit einem Klick können Sie die Datei direkt öffnen oder im Explorer anzeigen.
+Sobald ein Download startet, nutzt die Erweiterung die vom Browser bereitgestellten Metadaten, um die Quell-Website sowie die passende Dokumentenkategorie zu ermitteln. Anschließend wird Ihre bevorzugte Namensvorlage angewendet. Nach Abschluss des Downloads zeigt das Popup-Fenster den finalen Dateinamen, den ursprünglichen Namen, die Website-Quelle, die Dateigröße und den Speicherordner an. Fertiggestellte Dateien können Sie mit einem Klick direkt öffnen oder im Download-Ordner anzeigen.
 
-Hauptfunktionen:
+Wichtigste Funktionen:
 
-- Automatische Dateinamenvorschläge für neue Downloads
-- Quellenerkennung für über 100 bekannte Websites sowie automatische Erkennung für ungelistete Domains und Länder-TLDs (.de, .co.uk usw.)
-- Zuverlässiger Fallback bei Downloads über CDNs oder Cloud-Speicher
-- Automatische Klassifizierung für Rechnungen, Quittungen, Zertifikate, Berichte, Archive, Bilder und mehr
-- Benutzerdefinierte Dateinamenvorlagen und flexible Datumsformate
-- Websitespezifische Quellennamen und bevorzugte Standard-Dokumenttypen
-- Schutz vor der Umbenennung von ausführbaren Dateien und Installationsprogrammen (.exe, .msi, .dmg)
-- Durchsuchbarer lokaler Verlauf mit JSON-Export
-- Lokale Sicherung und Wiederherstellung (Backup & Restore) aller Einstellungen, Regeln und Verläufe
-- Schnellaktionen: Datei öffnen und Im Ordner anzeigen
-- Helles und dunkles Oberflächendesign
-- 6 unterstützte Sprachen: Deutsch, Englisch, Türkisch, Spanisch, Französisch und brasilianisches Portugiesisch
+- Automatische Namensvorschläge beim Start eines Downloads
+- Quellenerkennung anhand der besuchten Website und der Download-Domain
+- Kontextbezogene Einordnung basierend auf Dateieigenschaften und Download-Metadaten
+- Anpassbare Dateinamenvorlagen mit Variablen für Datum, Quelle und Dokument
+- Eigene Domain-Regeln zur Festlegung bevorzugter Quellennamen für bestimmte Websites
+- Zuverlässiger Schutz zur Beibehaltung der Originalnamen bei Programminstallationen
+- Durchsuchbarer lokaler Verlauf mit praktischer Exportfunktion
+- Lokale Sicherung und Wiederherstellung aller Einstellungen, Regeln und Verläufe
+- Schnellaktionen zum Öffnen fertiger Dateien oder Anzeigen im Datei-Explorer
+- Helle und dunkle Benutzeroberfläche
+- Mehrsprachige Benutzeroberfläche
 
-Datenschutz steht an erster Stelle:
-Metadaten, Dateinamen, URLs, Dateipfade, Einstellungen, Regeln und der Verlauf werden ausschließlich lokal in Chrome verarbeitet und niemals an den Entwickler oder Dritte übertragen. Die Erweiterung liest keine Dateiinhalte, erfordert kein Benutzerkonto und enthält weder Analysedienste noch Werbung, Tracker oder Cloud-Dienste.
+Datenschutz und Sicherheit:
+Die gesamte Verarbeitung findet ausschließlich lokal in Ihrem Browser auf Ihrem Computer statt. Download-Informationen, Dateinamen, Internetadressen, Einstellungen und der Verlauf werden niemals an externe Server oder Dritte weitergegeben. Die Erweiterung benötigt kein Benutzerkonto, liest keine Inhalte Ihrer heruntergeladenen Dateien und enthält keinerlei Werbung, Analysedienste oder Tracking-Mechanismen.
 
-Smart Download Renamer ist kostenlos. Ein freiwilliger Patreon-Link steht für Unterstützer bereit; er schaltet keine zusätzlichen Funktionen frei und ist zu keinem Zeitpunkt erforderlich.
+Smart Download Renamer ist vollständig kostenlos. Ein freiwilliger Patreon-Link ist für Nutzer verfügbar, die das Projekt unterstützen möchten, schaltet jedoch keine gesperrten Funktionen frei.

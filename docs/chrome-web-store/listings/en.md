@@ -10,26 +10,25 @@
 
 ## Detailed description
 
-Smart Download Renamer helps you understand what a downloaded file is, where it came from, what it was named, and where Chrome saved it.
+Smart Download Renamer helps you organize your files by giving new downloads clear and consistent filenames as they arrive.
 
-When a download begins, the extension uses metadata already provided by Chrome to identify the source and document type, then suggests a clear filename using your selected template. After completion, the popup shows the final filename, original filename, source, file type, size, and saved folder. You can open a completed file or reveal it in its folder with one click.
+When a download begins, the extension uses browser-provided metadata to identify the source website and document category, then applies your preferred naming template. Once finished, the popup displays the final filename, original name, source, file size, and saved location. You can open any completed file or view it in its folder directly from the extension.
 
-Main features:
+Key features:
 
-- Automatic filename suggestions for new downloads
-- Source detection across 100+ popular websites and smart naming for unlisted domains and country TLDs (.co.uk, .com.tr, etc.)
-- Accurate source resolution when files are downloaded via CDNs or cloud storage hosts
-- Classification for invoices, receipts, certificates, reports, archives, images, and more
-- Custom filename templates and date formats
-- Website-specific source names and preferred document types
-- Protection for executable and application downloads (.exe, .pkg, .dmg)
-- Local rename history with search and JSON export
-- Local backup and restore (JSON import & export) for settings, custom domain rules, and history
-- Open file and Show in folder actions for completed downloads
-- Light and dark themes
-- Six interface languages: English, Turkish, Spanish, German, French, and Brazilian Portuguese
+- Automatic filename suggestions when downloads start
+- Source detection based on the origin website and download domain
+- Contextual categorization based on file properties and download headers
+- Customizable naming templates with date, source, and document variables
+- Domain rules to set preferred source names for specific sites
+- Automatic protection for application installers and executable files
+- Searchable local rename history with JSON export support
+- Local backup and restore for settings, custom rules, and history
+- Quick actions to open completed files or show them in your download folder
+- Light and dark display modes
+- Multiple interface languages
 
-Privacy comes first:
-Download metadata, filenames, URLs, paths, settings, rules, and history are processed locally in Chrome and are not transmitted to the developer or third parties. The extension does not read downloaded file contents, requires no account, and includes no analytics, advertising, trackers, or cloud service.
+Privacy and data security:
+All processing happens entirely on your device inside Chrome. Download details, filenames, URLs, settings, and history are never sent to external servers or third parties. The extension requires no account, does not inspect downloaded file contents, and contains no advertisements, analytics, or background tracking.
 
-Smart Download Renamer is free. A voluntary Patreon link is available for users who want to support continued development, but it does not unlock features and is never required.
+Smart Download Renamer is completely free. A voluntary Patreon link is included for users who wish to support ongoing maintenance, but all features remain open and available to everyone.

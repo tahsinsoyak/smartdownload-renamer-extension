@@ -10,26 +10,25 @@
 
 ## Detailed description
 
-Smart Download Renamer vous permet d'identifier immédiatement chaque fichier téléchargé, son site d'origine, son nom final et le dossier où Chrome l'a enregistré.
+Smart Download Renamer vous aide à garder un dossier de téléchargements parfaitement organisé en attribuant des noms clairs et cohérents à vos fichiers dès leur arrivée.
 
-Dès qu'un téléchargement commence, l'extension s'appuie sur les métadonnées fournies par Chrome pour déterminer la source et le type de document, puis vous propose un nom de fichier clair basé sur le modèle de votre choix. Une fois le téléchargement terminé, la fenêtre contextuelle affiche le nom final, le nom d'origine, le site source, le type de fichier, la taille et le dossier de destination. Vous pouvez ouvrir le fichier ou le localiser dans son dossier en un seul clic.
+Lorsqu'un téléchargement commence, l'extension s'appuie sur les métadonnées fournies par le navigateur pour identifier le site d'origine et la catégorie du document, puis applique votre modèle de renommage favori. Une fois terminé, la fenêtre contextuelle affiche le nom définitif, le nom d'origine, le site source, la taille du fichier et l'emplacement de sauvegarde. Vous pouvez ouvrir le fichier ou le révéler dans son dossier en un seul clic.
 
-Fonctionnalités principales :
+Points forts :
 
-- Suggestions automatiques de renommage pour chaque nouveau téléchargement
-- Détection de source sur plus de 100 plateformes populaires et gestion des domaines nationaux (.fr, .co.uk, etc.)
-- Identification intelligente de l'expéditeur même lors de téléchargements transitant par des CDN ou du stockage cloud
-- Classification automatique pour factures, reçus, certificats, rapports, archives, images et plus encore
-- Modèles de nommage personnalisables et formats de date configurables
-- Règles personnalisées par nom de domaine pour définir des noms de source et types de documents favoris
-- Protection des fichiers exécutables et installateurs (.exe, .dmg, .pkg) conservant leur nom d'origine
-- Historique local complet avec recherche instantanée et export JSON
-- Sauvegarde et restauration locale (Backup & Restore) de votre configuration, de vos règles et de votre historique
-- Actions rapides : Ouvrir le fichier et Afficher dans le dossier
-- Thèmes clair et sombre
-- Disponible en 6 langues : français, anglais, turc, espagnol, allemand et portugais brésilien
+- Suggestions automatiques de noms au lancement de chaque téléchargement
+- Détection du site d'origine à partir du domaine et de l'adresse de téléchargement
+- Catégorisation contextuelle basée sur les propriétés du fichier et ses en-têtes
+- Modèles de nommage personnalisables incluant la date, la source et le document
+- Règles par domaine pour attribuer des noms d'origine personnalisés à vos sites favoris
+- Préservation automatique des noms d'origine pour les installateurs de logiciels
+- Historique local complet et consultable avec prise en charge de l'exportation
+- Sauvegarde et restauration locale des préférences, des règles et de l'historique
+- Actions instantanées pour ouvrir les fichiers ou les afficher dans votre dossier
+- Interface adaptée aux modes clair et sombre
+- Prise en charge de plusieurs langues d'interface
 
-Respect total de votre vie privée :
-Les métadonnées de téléchargement, noms de fichiers, URL, chemins d'accès, paramètres, règles et historiques sont traités strictement en local dans Chrome. Aucune donnée n'est transmise au développeur ou à des tiers. L'extension ne lit pas le contenu de vos fichiers, n'exige aucun compte et n'intègre aucun outil d'analyse, publicité, traceur ou service cloud.
+Confidentialité et sécurité :
+L'ensemble des opérations s'exécute exclusivement en local dans votre navigateur. Les informations de téléchargement, noms de fichiers, adresses web, paramètres et historiques ne sont jamais transmis à des serveurs tiers ou au développeur. L'extension ne requiert aucun compte, ne consulte pas le contenu interne de vos fichiers et ne comprend ni publicité ni outil de suivi.
 
-Smart Download Renamer est gratuit. Un lien facultatif vers Patreon est proposé pour ceux qui désirent soutenir son développement, sans aucune obligation ni restriction de fonctionnalités.
+Smart Download Renamer est totalement gratuit. Un lien optionnel vers Patreon est présent pour soutenir le projet, sans aucune contrepartie ni restriction d'accès.
